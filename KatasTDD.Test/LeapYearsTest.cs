@@ -30,6 +30,9 @@ public static class LeapYear
 {
     public static bool AnioBisiesto(int anio)
     {
-        return anio is 2004 or not 2017;
+        if(anio % 4 != 0)
+            return false;
+        
+        return true;
     }
 }
