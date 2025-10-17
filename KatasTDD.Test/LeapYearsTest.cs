@@ -7,15 +7,13 @@ public class LeapYearsTest
     [Fact]
     public void Si_ElAnioEs2004_Debo_RetornarTrue()
     {
-        var resultado = LeapYear.AnioBisiesto();
-        
-        resultado.Should().BeTrue();
+        LeapYear.AnioBisiesto(2004).Should().BeTrue();
     }
 }
 
-public class LeapYear
+public static class LeapYear
 {
-    public static bool AnioBisiesto()
+    public static bool AnioBisiesto(int anio)
     {
         return true;
     }
