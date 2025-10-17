@@ -21,6 +21,9 @@ public static class LeapYear
 {
     public static bool AnioBisiesto(int anio)
     {
-        return true;
+        if (anio == 2004)
+            return true;
+
+        return false;
     }
 }
