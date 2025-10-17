@@ -17,6 +17,6 @@ public class LeapYear
 {
     public static bool AnioBisiesto()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }
