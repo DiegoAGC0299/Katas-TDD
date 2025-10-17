@@ -24,6 +24,15 @@ public class LeapYearsTest
     {
         LeapYear.AnioBisiesto(anio).Should().BeFalse();
     }
+
+    [Theory]
+    [InlineData(2008)]
+    [InlineData(2012)]
+    [InlineData(1974)]
+    public void Si_ElAnioEsDivisiblePor4_YNoEsDivisiblePor100_Debo_RetornarTrue(int anio)
+    {
+        LeapYear.AnioBisiesto(anio).Should().BeTrue();
+    }
 }
 
 public static class LeapYear
