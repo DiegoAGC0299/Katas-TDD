@@ -42,8 +42,6 @@ public static class LeapYear
         if (anio % 4 != 0)
             return false;
         
-        if (anio % 10 != 0)
-            return true;
-        return false;
+        return anio % 10 != 0;
     }
 }
