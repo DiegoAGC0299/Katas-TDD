@@ -7,13 +7,13 @@ public class LeapYearsTest
     [Fact]
     public void Si_ElAnioEs2004_Debo_RetornarTrue()
     {
-        LeapYear.AnioBisiesto(2004).Should().BeTrue();
+        LeapYear.EsAnioBisiesto(2004).Should().BeTrue();
     }
 
     [Fact]
     public void Si_ElAnioEs2017_Debo_RetornarFalse()
     {
-        LeapYear.AnioBisiesto(2017).Should().BeFalse();
+        LeapYear.EsAnioBisiesto(2017).Should().BeFalse();
     }
 
     [Theory]
@@ -22,7 +22,7 @@ public class LeapYearsTest
     [InlineData(2007)]
     public void Si_ElAnioNoEsDivisiblePor4_Debo_RetornarFalse(int anio)
     {
-        LeapYear.AnioBisiesto(anio).Should().BeFalse();
+        LeapYear.EsAnioBisiesto(anio).Should().BeFalse();
     }
 
     [Theory]
@@ -31,7 +31,7 @@ public class LeapYearsTest
     [InlineData(1976)]
     public void Si_ElAnioEsDivisiblePor4_YNoEsDivisiblePor100_Debo_RetornarTrue(int anio)
     {
-        LeapYear.AnioBisiesto(anio).Should().BeTrue();
+        LeapYear.EsAnioBisiesto(anio).Should().BeTrue();
     }
     
     [Theory]
@@ -39,13 +39,17 @@ public class LeapYearsTest
     [InlineData(2000)]
     public void Si_ElAnioEsDivisiblePor400_Debo_RetornarTrue(int anio)
     {
-        LeapYear.AnioBisiesto(anio).Should().BeTrue();
+        LeapYear.EsAnioBisiesto(anio).Should().BeTrue();
     }
 }
 
 public static class LeapYear
 {
-    public static bool AnioBisiesto(int anio)
+    public static bool EsAnioBisiesto(int anio)
+        => ValidarAnioBisiesto(anio);
+    
+
+    private static bool ValidarAnioBisiesto(int anio)
     {
         if (anio % 400 == 0)
             return true;
