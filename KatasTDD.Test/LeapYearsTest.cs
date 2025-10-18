@@ -50,13 +50,5 @@ public static class LeapYear
     
 
     private static bool ValidarAnioBisiesto(int anio)
-    {
-        if (anio % 400 == 0)
-            return true;
-        
-        if (anio % 4 != 0)
-            return false;
-        
-        return anio % 10 != 0;
-    }
+        => (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0; 
 }

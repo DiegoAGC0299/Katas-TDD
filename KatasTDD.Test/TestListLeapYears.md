@@ -3,7 +3,6 @@
 - [x] Si el año no es divisible por 4, debo retornar false.
 - [x] Si el año es divisible por 4 y no es divisible por 100, debo retornar true.
 - [x] Si el año es divisible por 400, debo retornar true.
-- [ ] Si el año es divisible por 100 y no es divisible por 400, debo retornar false.
 
 
 *Retorno de valor
