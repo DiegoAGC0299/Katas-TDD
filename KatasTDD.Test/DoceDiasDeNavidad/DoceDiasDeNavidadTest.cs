@@ -11,7 +11,17 @@ public class DoceDiasDeNavidadTest
         
         cancion.ConstruirCancion(1);
 
-        cancion.ImprimirLetra().Should().BeEquivalentTo("El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras");
+        cancion.ImprimirLetra().Should().BeEquivalentTo("El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.");
+    }
+
+    [Fact]
+    public void Si_DiaEsDos_Debe_RetornarLetraCancion_Con_LineasCorrespondientesYRegalos()
+    {
+        var cancion = new  Cancion();
+        
+        cancion.ConstruirCancion(2);
+        
+        cancion.ImprimirLetra().Should().BeEquivalentTo("En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.");
     }
 }
 
@@ -20,7 +30,7 @@ public class Cancion
     private string letra { get; set; }
     public void ConstruirCancion(int i)
     {
-        letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras";
+        letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
     }
 
     public string ImprimirLetra()
