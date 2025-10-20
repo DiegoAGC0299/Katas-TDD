@@ -46,14 +46,18 @@ public class Cancion
     {
         if (dia < 1 || dia > 12)
             throw new ArgumentOutOfRangeException(nameof(dia), "El día debe estar entre 1 y 12.");
-        
+
+        ConstruirLineas(dia);
+    }
+
+    private void ConstruirLineas(int dia)
+    {
         if(dia == 1)
             _letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
 
         if (dia == 2)
             _letra =
                 "En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.";
-        
     }
 
     public string ImprimirLetra()
