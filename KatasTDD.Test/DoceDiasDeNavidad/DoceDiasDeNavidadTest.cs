@@ -11,7 +11,7 @@ public class DoceDiasDeNavidadTest
         
         cancion.ConstruirCancion(1);
 
-        cancion.ImprimirLetra().Should().BeEquivalentTo("El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.");
+        cancion.ImprimirLetra().Should().BeEquivalentTo("El primer día de navidad,\n Mi verdadero amor me regaló\n Una perdiz en un arbol de peras.");
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class DoceDiasDeNavidadTest
         
         cancion.ConstruirCancion(2);
         
-        cancion.ImprimirLetra().Should().BeEquivalentTo("En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.");
+        cancion.ImprimirLetra().Should().BeEquivalentTo("En el segundo día de navidad,\n Mi verdadero amor me regaló:\n Dos tórtolas,\n Y Una perdiz en un arbol de peras.");
     }
 
     [Theory]
@@ -36,6 +36,29 @@ public class DoceDiasDeNavidadTest
         accion.Should().Throw<ArgumentOutOfRangeException>().WithMessage("El día debe estar entre 1 y 12.*");
         
         
+    }
+
+    [Theory]
+    [InlineData(
+        5, 
+        "En el quinto día de Navidad,\n Mi verdadero amor me regaló:\n Cinco anillos de oro,\n Cuatro pájaros que llaman," +
+        "\n Tres gallinas francesas,\n Dos tórtolas,\n Y una perdiz en un árbol de peras.")]
+    [InlineData(
+        8, 
+        "En el octavo día de Navidad,\n Mi verdadero amor me regaló:\n Ocho doncellas ordeñando,\n Siete cisnes nadando,\n " +
+        "Seis gansos poniendo,\n Cinco anillos de oro,\n Cuatro pájaros que llaman,\n Tres gallinas francesas,\n Dos tórtolas,\n Y una perdiz en un árbol de peras.")]
+    [InlineData(
+        12, 
+        "En el duodécimo día de Navidad,\n Mi verdadero amor me regaló:\n Doce tamborileros tocando el tambor," +
+        "\n Once gaiteros,\n Diez señores saltando,\n Nueve damas bailando,\n Ocho doncellas ordeñando,\n Siete cisnes nadando,\n " +
+        "Seis gansos poniendo,\n Cinco anillos de oro,\n Cuatro pájaros que llaman,\n Tres gallinas francesas,\n Dos tórtolas,\n Y una perdiz en un árbol de peras.")]
+    public void Si_DiaEstaEntreUnoYDoce_Debe_RetornarLetraCancion_Con_LineasCorrespondientesYRegalos(int dia, string cancionEsperada)
+    {
+        var cancion = new Cancion();
+        
+        cancion.ConstruirCancion(2);
+        
+        cancion.ImprimirLetra().Should().BeEquivalentTo(cancionEsperada);
     }
 }
 
@@ -53,11 +76,11 @@ public class Cancion
     private void ConstruirLineas(int dia)
     {
         if(dia == 1)
-            _letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
+            _letra = "El primer día de navidad,\n Mi verdadero amor me regaló\n Una perdiz en un arbol de peras.";
 
         if (dia == 2)
             _letra =
-                "En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.";
+                "En el segundo día de navidad,\n Mi verdadero amor me regaló:\n Dos tórtolas,\n Y Una perdiz en un arbol de peras.";
     }
 
     public string ImprimirLetra()
