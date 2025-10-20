@@ -33,16 +33,22 @@ public class JuegoTenis
     private int _puntajeJugadorB = 0;
     public string ObtenerPuntuacion()
     {
+        if(_puntajeJugadorA > _puntajeJugadorB)
+            _puntuacion = "Fifteen-Love";
+        
+        if(_puntajeJugadorA < _puntajeJugadorB)
+            _puntuacion = "Love-Fifteen";
+        
         return _puntuacion;
     }
 
     public void AgregarPuntuacionJugadorA(int puntosJugadorA)
     {
-        throw new NotImplementedException();
+        _puntajeJugadorA = puntosJugadorA;
     }
 
     public void AgregarPuntuacionJugadorB(int puntosJugadorB)
     {
-        throw new NotImplementedException();
+        _puntajeJugadorB  = puntosJugadorB;
     }
 }
