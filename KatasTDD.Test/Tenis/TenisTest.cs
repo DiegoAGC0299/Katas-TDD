@@ -15,8 +15,9 @@ public class TenisTest
 
 public class JuegoTenis
 {
-    public object ObtenerPuntuacion()
+    private string _puntuacion = "Love-Love";
+    public string ObtenerPuntuacion()
     {
-        return "Love-Love";
+        return _puntuacion;
     }
 }
