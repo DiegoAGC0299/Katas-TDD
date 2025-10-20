@@ -17,13 +17,14 @@ public class DoceDiasDeNavidadTest
 
 public class Cancion
 {
+    private string letra { get; set; }
     public void ConstruirCancion(int i)
     {
-        
+        letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras";
     }
 
     public string ImprimirLetra()
     {
-        return "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras";
+        return letra;
     }
 }
