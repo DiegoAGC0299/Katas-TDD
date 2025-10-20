@@ -33,7 +33,7 @@ public class DoceDiasDeNavidadTest
         
         Action accion = () => cancion.ConstruirCancion(dia);
         
-        accion.Should().Throw<ArgumentOutOfRangeException>().WithMessage("El día debe estar entre 1 y 12.");
+        accion.Should().Throw<ArgumentOutOfRangeException>().WithMessage("El día debe estar entre 1 y 12.*");
         
         
     }
@@ -44,12 +44,16 @@ public class Cancion
     private string _letra = string.Empty;
     public void ConstruirCancion(int dia)
     {
+        if (dia < 1 || dia > 12)
+            throw new ArgumentOutOfRangeException(nameof(dia), "El día debe estar entre 1 y 12.");
+        
         if(dia == 1)
             _letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
 
         if (dia == 2)
             _letra =
                 "En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.";
+        
     }
 
     public string ImprimirLetra()
