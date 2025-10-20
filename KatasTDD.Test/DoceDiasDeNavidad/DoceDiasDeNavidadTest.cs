@@ -23,23 +23,37 @@ public class DoceDiasDeNavidadTest
         
         cancion.ImprimirLetra().Should().BeEquivalentTo("En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.");
     }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(13)]
+    public void Si_DiaEsMenorAUnoOMayorADoce_Debe_RetornarExcepcionDeTipoFueraDeRango(int dia)
+    {
+        var cancion = new Cancion();
+        
+        Action accion = () => cancion.ConstruirCancion(dia);
+        
+        accion.Should().Throw<ArgumentOutOfRangeException>().WithMessage("El día debe estar entre 1 y 12.");
+        
+        
+    }
 }
 
 public class Cancion
 {
-    private string letra { get; set; }
-    public void ConstruirCancion(int i)
+    private string _letra = string.Empty;
+    public void ConstruirCancion(int dia)
     {
-        if(i == 1)
-            letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
+        if(dia == 1)
+            _letra = "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras.";
 
-        if (i == 2)
-            letra =
+        if (dia == 2)
+            _letra =
                 "En el segundo día de navidad \n Mi verdadero amor me regaló \n Dos tórtolas, \n y Una perdiz en un arbol de peras.";
     }
 
     public string ImprimirLetra()
     {
-        return letra;
+        return _letra;
     }
 }
