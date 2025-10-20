@@ -31,24 +31,22 @@ public class JuegoTenis
     private string _puntuacion = "Love-Love";
     private int _puntajeJugadorA = 0;
     private int _puntajeJugadorB = 0;
-    public string ObtenerPuntuacion()
+    
+    public void AgregarPuntuacionJugadorA(int puntosJugadorA) =>  _puntajeJugadorA = puntosJugadorA;
+    public void AgregarPuntuacionJugadorB(int puntosJugadorB) =>  _puntajeJugadorB = puntosJugadorB;
+    
+    private void CalcularPuntuacion()
     {
         if(_puntajeJugadorA > _puntajeJugadorB)
             _puntuacion = "Fifteen-Love";
-        
+
         if(_puntajeJugadorA < _puntajeJugadorB)
             _puntuacion = "Love-Fifteen";
-        
+    }
+    public string ObtenerPuntuacion()
+    {
+        CalcularPuntuacion();
+
         return _puntuacion;
-    }
-
-    public void AgregarPuntuacionJugadorA(int puntosJugadorA)
-    {
-        _puntajeJugadorA = puntosJugadorA;
-    }
-
-    public void AgregarPuntuacionJugadorB(int puntosJugadorB)
-    {
-        _puntajeJugadorB  = puntosJugadorB;
     }
 }

@@ -1,5 +1,5 @@
 ﻿- [x] Si inicia el juego de tenis, el resultado debe ser (Love-Love)
-- [ ] Si un jugador obtiene un punto y su oponente obtiene cero puntos, el puntaje de dicho jugador debe ser 15 y love para su oponente.
+- [x] Si un jugador obtiene un punto y su oponente obtiene cero puntos, el puntaje de dicho jugador debe ser 15 y love para su oponente.
 - [ ] Si ambos jugadores realizan dos puntos y están igualados, el resultado debe ser (30-30).
 - [ ] Si un jugador obtiene 3 puntos y su oponente obtiene un punto, el resultado debe ser 40 y 15 para su oponente.
 - [ ] Si un jugador obtiene 4 puntos y su oponente obtiene dos puntos o menos, el resultado debe ser Ganador-JugadorX.
