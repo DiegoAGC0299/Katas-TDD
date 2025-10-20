@@ -19,11 +19,11 @@ public class Cancion
 {
     public void ConstruirCancion(int i)
     {
-        throw new NotImplementedException();
+        
     }
 
     public string ImprimirLetra()
     {
-        throw new NotImplementedException();
+        return "El primer día de navidad \n Mi verdadero amor me regaló \n Una perdiz en un arbol de peras";
     }
 }
