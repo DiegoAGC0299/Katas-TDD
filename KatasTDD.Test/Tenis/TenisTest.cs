@@ -62,6 +62,18 @@ public class TenisTest
         juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo(puntuacionEsperada);
     }
     
+    [Fact]
+    public void Si_AmbosJugadoresRealizanTresPuntos_Debe_ElResultadoSerDeuce()
+    {
+        var juegoTennis = new JuegoTenis();
+        
+        juegoTennis.AgregarPuntuacionJugadorA(3);
+        juegoTennis.AgregarPuntuacionJugadorB(3);
+        
+        juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo("Deuce");
+    }
+        
+    
     
 }
 
