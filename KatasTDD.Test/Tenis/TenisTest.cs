@@ -44,26 +44,23 @@ public class JuegoTenis
     private string _puntuacion = "Love-Love";
     private int _puntajeJugadorA = 0;
     private int _puntajeJugadorB = 0;
-    
-    public void AgregarPuntuacionJugadorA(int puntosJugadorA) =>  _puntajeJugadorA = puntosJugadorA;
-    public void AgregarPuntuacionJugadorB(int puntosJugadorB) =>  _puntajeJugadorB = puntosJugadorB;
-    
-    private void CalcularPuntuacion()
-    {
-        _puntuacion = $"{PuntuacionObtenida(_puntajeJugadorA)}-{PuntuacionObtenida(_puntajeJugadorB)}";
-    }
-    public string ObtenerPuntuacion()
-    {
-        CalcularPuntuacion();
-
-        return _puntuacion;
-    }
-
-    public string PuntuacionObtenida(int puntuacion) => puntuacion switch
+    private string PuntuacionObtenida(int puntuacion) => puntuacion switch
     {
         0 => "Love",
         1 => "Fifteen",
         2 => "Thirty",
         _ => puntuacion.ToString()
     };
+    
+    public void AgregarPuntuacionJugadorA(int puntosJugadorA) =>  _puntajeJugadorA = puntosJugadorA;
+    public void AgregarPuntuacionJugadorB(int puntosJugadorB) =>  _puntajeJugadorB = puntosJugadorB;
+    
+    private void CalcularPuntuacion()
+        => _puntuacion = $"{PuntuacionObtenida(_puntajeJugadorA)}-{PuntuacionObtenida(_puntajeJugadorB)}";
+    
+    public string ObtenerPuntuacion()
+    {
+        CalcularPuntuacion();
+        return _puntuacion;
+    }
 }
