@@ -24,6 +24,19 @@ public class TenisTest
         
         juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo(puntuacionEsperada);
     }
+
+    [Fact]
+    public void Si_AmbosJugadoresRealizanDosPuntos_Debe_ElResultadoSerTreintaTreinta()
+    {
+        var juegoTennis = new JuegoTenis();
+        
+        juegoTennis.AgregarPuntuacionJugadorA(2);
+        juegoTennis.AgregarPuntuacionJugadorB(2);
+        
+        juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo("Thirty-Thirty");
+    }
+    
+    
 }
 
 public class JuegoTenis
