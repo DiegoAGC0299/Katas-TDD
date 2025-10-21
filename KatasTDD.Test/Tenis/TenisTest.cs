@@ -50,11 +50,7 @@ public class JuegoTenis
     
     private void CalcularPuntuacion()
     {
-        if(_puntajeJugadorA > _puntajeJugadorB)
-            _puntuacion = "Fifteen-Love";
-
-        if(_puntajeJugadorA < _puntajeJugadorB)
-            _puntuacion = "Love-Fifteen";
+        _puntuacion = $"{PuntuacionObtenida(_puntajeJugadorA)}-{PuntuacionObtenida(_puntajeJugadorB)}";
     }
     public string ObtenerPuntuacion()
     {
@@ -62,4 +58,12 @@ public class JuegoTenis
 
         return _puntuacion;
     }
+
+    public string PuntuacionObtenida(int puntuacion) => puntuacion switch
+    {
+        0 => "Love",
+        1 => "Fifteen",
+        2 => "Thirty",
+        _ => puntuacion.ToString()
+    };
 }
