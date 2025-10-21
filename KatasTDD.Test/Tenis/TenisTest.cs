@@ -55,9 +55,9 @@ public class TenisTest
 public class JuegoTenis
 {
     private string _puntuacion = "Love-Love";
-    private int _puntajeJugadorA = 0;
-    private int _puntajeJugadorB = 0;
-    private string PuntuacionObtenida(int puntuacion) => puntuacion switch
+    private int _puntajeJugadorA;
+    private int _puntajeJugadorB;
+    private static string PuntuacionObtenida(int puntuacion) => puntuacion switch
     {
         0 => "Love",
         1 => "Fifteen",
