@@ -102,7 +102,7 @@ public class JuegoTenis
 
             if (Math.Abs(diferencia) >= 2)
             {
-                _puntuacion = diferencia > 0 ? "Ganador-JugadorA" : "Ganador-JugadorB";
+                _puntuacion = $"Ganador-{(diferencia > 0 ? "JugadorA" : "JugadorB")}";
                 return true;
             }
         }
@@ -112,12 +112,9 @@ public class JuegoTenis
 
     private bool Deuce()
     {
-        if (_puntajeJugadorA >= 3 && _puntajeJugadorB == _puntajeJugadorA)
-        {
-            _puntuacion = "Deuce";
-            return true;
-        }
-        return false;
+        if (_puntajeJugadorA < 3 || _puntajeJugadorB != _puntajeJugadorA) return false;
+        _puntuacion = "Deuce";
+        return true;
     }
     
     

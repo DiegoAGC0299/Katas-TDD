@@ -3,7 +3,7 @@
 - [x] Si ambos jugadores realizan dos puntos, el resultado debe ser (30-30).
 - [x] Si un jugador obtiene 3 puntos y su oponente obtiene un punto, el resultado debe ser 40 y 15 para su oponente.
 - [x] Si un jugador obtiene más de 3 puntos y su oponente obtiene dos puntos menos, el resultado debe ser Ganador-JugadorX.
-- [ ] Si ambos jugadores realizan 3 puntos, el resultado debe ser Deuce.
+- [x] Si ambos jugadores realizan 3 puntos, el resultado debe ser Deuce.
 - [ ] Si el juego está en deuce y un jugador obtiene un punto adicional que su oponente, el resultado debe ser Ventaja-JugadorX.
 - [ ] Si el juego está en deuce y un jugador obtiene ventaja y anota un punto, el resultado debe ser Ganador-JugadorX.
 
