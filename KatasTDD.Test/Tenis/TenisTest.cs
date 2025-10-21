@@ -48,6 +48,19 @@ public class TenisTest
         
         juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo(puntuacionEsperada);
     }
+
+    [Theory]
+    [InlineData(4,2,"Ganador-JugadorA")]
+    [InlineData(2,4,"Ganador-JugadorB")]
+    public void Si_UnJugadorObteneMasDeTresPuntos_Y_SuOponenteObteneDosPuntosMenos_Debe_ElResultadoSerGanadorX(int puntosJugadorA, int puntosJugadorB, string puntuacionEsperada)
+    {
+        var juegoTennis = new JuegoTenis();
+        
+        juegoTennis.AgregarPuntuacionJugadorA(puntosJugadorA);
+        juegoTennis.AgregarPuntuacionJugadorB(puntosJugadorB);
+        
+        juegoTennis.ObtenerPuntuacion().Should().BeEquivalentTo(puntuacionEsperada);
+    }
     
     
 }
