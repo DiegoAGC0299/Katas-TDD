@@ -82,16 +82,26 @@ public class JuegoTenis
     public void AgregarPuntuacionJugadorA(int puntosJugadorA) =>  _puntajeJugadorA = puntosJugadorA;
     public void AgregarPuntuacionJugadorB(int puntosJugadorB) =>  _puntajeJugadorB = puntosJugadorB;
 
-    private void CalcularPuntuacion()
+    private bool JugadorGanador()
     {
         if (_puntajeJugadorA >= 4 || _puntajeJugadorB >= 4)
         {
             int diferencia = _puntajeJugadorA - _puntajeJugadorB;
 
             if (Math.Abs(diferencia) >= 2)
+            {
                 _puntuacion = diferencia > 0 ? "Ganador-JugadorA" : "Ganador-JugadorB";
+                return true;
+            }
         }
-        else
+
+        return false;
+    }
+    
+    
+    private void CalcularPuntuacion()
+    {
+        if (!JugadorGanador())
             _puntuacion = $"{PuntuacionObtenida(_puntajeJugadorA)}-{PuntuacionObtenida(_puntajeJugadorB)}";
     }
         
