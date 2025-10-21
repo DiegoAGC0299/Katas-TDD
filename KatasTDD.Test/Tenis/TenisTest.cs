@@ -38,8 +38,8 @@ public class TenisTest
     
     [Theory]
     [InlineData(1,3,"Fifteen-Forty")]
-    [InlineData(3,3,"Forty-Fifteen")]
-    public void Si_UnJugadorObtieneMasDeTresPuntos_Y_SuOponenteObtieneUnPunto_Debe_ElPuntajeDelJugadorSerCuarentaYSuOponenteQuince(int puntosJugadorA, int puntosJugadorB, string puntuacionEsperada)
+    [InlineData(3,1,"Forty-Fifteen")]
+    public void Si_UnJugadorObtieneTresPuntos_Y_SuOponenteObtieneUnPunto_Debe_ElPuntajeDelJugadorSerCuarentaYSuOponenteQuince(int puntosJugadorA, int puntosJugadorB, string puntuacionEsperada)
     {
         var juegoTennis = new JuegoTenis();
         
@@ -62,6 +62,7 @@ public class JuegoTenis
         0 => "Love",
         1 => "Fifteen",
         2 => "Thirty",
+        3 => "Forty",
         _ => puntuacion.ToString()
     };
     
