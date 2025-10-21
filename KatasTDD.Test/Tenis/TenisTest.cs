@@ -109,11 +109,21 @@ public class JuegoTenis
 
         return false;
     }
+
+    private bool Deuce()
+    {
+        if (_puntajeJugadorA >= 3 && _puntajeJugadorB == _puntajeJugadorA)
+        {
+            _puntuacion = "Deuce";
+            return true;
+        }
+        return false;
+    }
     
     
     private void CalcularPuntuacion()
     {
-        if (!JugadorGanador())
+        if (!JugadorGanador() && !Deuce())
             _puntuacion = $"{PuntuacionObtenida(_puntajeJugadorA)}-{PuntuacionObtenida(_puntajeJugadorB)}";
     }
         
