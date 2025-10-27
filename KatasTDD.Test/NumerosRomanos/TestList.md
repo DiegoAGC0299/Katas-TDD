@@ -1,0 +1,10 @@
+- [x] Si el número es 1, debe retornar I
+- [x] Si el número es 2, debe retornar II
+- [x] Si el número es 3, debe retornar III
+- [x] Si el número es negativo, debe retornar fuera del rango
+- [x] Si el número es 4, debe retornar IV
+- [x] Si el número es 5, debe retornar V
+- [x] Si el número es 6, 7 y 8, debe retornar VI, VII, VIII
+- [x] Si el número es 9, debe retornar IX
+- [x] Si el número es 10, debe retornar X
+- [ ] Si el número es cualquiera, debe retornar el número romano que corresponde
