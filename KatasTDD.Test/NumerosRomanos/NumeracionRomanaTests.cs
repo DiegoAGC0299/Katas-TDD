@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions;
+using KatasTDD.Domain;
 
 namespace KatasTDD.Test.NumerosRomanos;
 
@@ -28,12 +29,14 @@ public class NumeracionRomanaTests
         numeroRomano.Should().BeEquivalentTo("III");
     }
     
-    [Fact]
-    public void Si_NumeroEsNegativo_Debe_RetornarExcepcionDeTipoFueraDeRango()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(4000)]
+    public void Si_NumeroEstaFueraDelRango_Debe_RetornarExcepcionDeTipoFueraDeRango(int numero)
     {
-        var caller = () => NumeracionRomana.ConvertirNumeroARomano(-1);
+        var caller = () => NumeracionRomana.ConvertirNumeroARomano(numero);
 
-        caller.Should().ThrowExactly<ArgumentOutOfRangeException>().WithMessage("El número debe ser mayor a cero. (Parameter 'numero')");
+        caller.Should().ThrowExactly<ArgumentOutOfRangeException>().WithMessage("El número debe estar entre 1 y 3999. (Parameter 'numero')");
     }
     
     [Fact]
@@ -78,34 +81,17 @@ public class NumeracionRomanaTests
 
         numeroRomano.Should().BeEquivalentTo("X");
     }
-}
-
-public static class NumeracionRomana
-{
-    public static string ConvertirNumeroARomano(int numero)
-    {
-        ValidarRangoPermitido(numero);
-        return CalcularNumeroRomano(numero);
-    }
     
-    private static void ValidarRangoPermitido(int numero)
+    [Theory]
+    [InlineData(25, "XXV")]
+    [InlineData(166, "CLXVI")]
+    [InlineData(901, "CMI")]
+    [InlineData(1986, "MCMLXXXVI")]
+    [InlineData(2820, "MMDCCCXX")]
+    public void Si_NumeroEsEntreUnoYCuatroMil_Debe_RetornarElNumeroRomanoCorrespondiente(int numero, string numeroRomanoEsperado)
     {
-        if(numero < 0)
-            throw new ArgumentOutOfRangeException(nameof(numero), "El número debe ser mayor a cero.");
-    }
+        var numeroRomano = NumeracionRomana.ConvertirNumeroARomano(numero);
 
-    private static string CalcularNumeroRomano(int numero)
-    {
-        return numero switch
-        {
-            10 => "X",
-            9 => "IX",
-            >=6 => $"V{new string('I', numero - 5)}",
-            5 => "V",
-            4 => "IV",
-            _ => new string('I', numero)
-        };
+        numeroRomano.Should().BeEquivalentTo(numeroRomanoEsperado);
     }
-
-    
 }
