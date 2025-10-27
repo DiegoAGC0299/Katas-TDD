@@ -1,5 +1,61 @@
+# --- Carpetas de compilación y caché ---
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+out/
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.log
+
+# --- Archivos AssemblyInfo y relacionados ---
+**/AssemblyInfo.cs
+**/*.AssemblyInfoInputs.cache
+**/*.AssemblyReference.cache
+
+# --- Archivos generados por MSBuild / NuGet ---
+**/*.nuget.dgspec.json
+**/*.nuget.g.props
+**/*.nuget.g.targets
+**/project.assets.json
+**/project.nuget.cache
+**/project.packagespec.json
+**/rider.project.restore.info
+**/KatasTDD.Test.GeneratedMSBuildEditorConfig.editorconfig
+**/*.assets.cache
+
+# --- Archivos de configuración temporal de Rider / VS Code ---
+.idea/
+.vscode/
+
+# --- Archivos temporales o locales ---
+*.tmp
+*.temp
+*.bak
+*.dbmdl
+*.jfm
+
+# --- Archivos de pruebas ---
+TestResults/
+*.coverage
+*.coveragexml
+
+# --- Archivos generados automáticamente ---
+*.designer.cs
+*.generated.cs
+*.g.cs
+*.g.i.cs
+
+# --- Paquetes descargados ---
+packages/
+*.nupkg
+*.snupkg
+
+# --- Archivos del sistema ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
