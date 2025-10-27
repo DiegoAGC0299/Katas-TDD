@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions;
+using KatasTDD.Domain;
 
 namespace KatasTDD.Test.DoceDiasDeNavidad;
 
@@ -7,21 +8,19 @@ public class DoceDiasDeNavidadTest
     [Fact]
     public void Si_DiaEsUno_Debe_RetornarLetraCancion_Con_LineaCorrespondienteYRegalos()
     {
-        var cancion = new Cancion();
         
-        cancion.ConstruirCancion(1);
+        var cancion = Cancion.GenerarLetraParaDia(1);
 
-        cancion.ImprimirLetra().Should().BeEquivalentTo("El primer día de navidad\n Mi verdadero amor me regaló\n Una perdiz en un árbol de peras.");
+        cancion.Should().BeEquivalentTo("El primer día de navidad\n Mi verdadero amor me regaló\n Una perdiz en un árbol de peras.");
     }
 
     [Fact]
     public void Si_DiaEsDos_Debe_RetornarLetraCancion_Con_LineasCorrespondientesYRegalos()
     {
-        var cancion = new  Cancion();
         
-        cancion.ConstruirCancion(2);
+        var cancion = Cancion.GenerarLetraParaDia(2);
         
-        cancion.ImprimirLetra().Should().BeEquivalentTo("En el segundo día de navidad,\n Mi verdadero amor me regaló:\n Dos tórtolas,\n Y Una perdiz en un árbol de peras.");
+        cancion.Should().BeEquivalentTo("En el segundo día de navidad,\n Mi verdadero amor me regaló:\n Dos tórtolas,\n Y Una perdiz en un árbol de peras.");
     }
 
     [Theory]
@@ -29,13 +28,9 @@ public class DoceDiasDeNavidadTest
     [InlineData(13)]
     public void Si_DiaEsMenorAUnoOMayorADoce_Debe_RetornarExcepcionDeTipoFueraDeRango(int dia)
     {
-        var cancion = new Cancion();
-        
-        Action accion = () => cancion.ConstruirCancion(dia);
+        Action accion = () => Cancion.GenerarLetraParaDia(dia);
         
         accion.Should().Throw<ArgumentOutOfRangeException>().WithMessage("El día debe estar entre 1 y 12.*");
-        
-        
     }
 
     [Theory]
@@ -54,10 +49,9 @@ public class DoceDiasDeNavidadTest
         "Seis gansos poniendo,\n Cinco anillos de oro,\n Cuatro pájaros que llaman,\n Tres gallinas francesas,\n Dos tórtolas,\n Y una perdiz en un árbol de peras.")]
     public void Si_DiaEstaEntreUnoYDoce_Debe_RetornarLetraCancion_Con_LineasCorrespondientesYRegalos(int dia, string cancionEsperada)
     {
-        var cancion = new Cancion();
         
-        cancion.ConstruirCancion(dia);
+        var cancion = Cancion.GenerarLetraParaDia(dia);
         
-        cancion.ImprimirLetra().Should().BeEquivalentTo(cancionEsperada);
+        cancion.Should().BeEquivalentTo(cancionEsperada);
     }
 }
