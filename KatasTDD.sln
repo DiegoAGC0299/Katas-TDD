@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KatasTDD.Test", "KatasTDD.Test\KatasTDD.Test.csproj", "{12AEE487-3FBC-43A3-903B-0C44B5E508B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KatasTDD.Domain", "KatasTDD.Domain\KatasTDD.Domain.csproj", "{51DD1608-9729-4156-9672-F5F89317FC3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{12AEE487-3FBC-43A3-903B-0C44B5E508B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12AEE487-3FBC-43A3-903B-0C44B5E508B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12AEE487-3FBC-43A3-903B-0C44B5E508B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DD1608-9729-4156-9672-F5F89317FC3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DD1608-9729-4156-9672-F5F89317FC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DD1608-9729-4156-9672-F5F89317FC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DD1608-9729-4156-9672-F5F89317FC3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
