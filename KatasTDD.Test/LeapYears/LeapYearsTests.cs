@@ -2,7 +2,7 @@
 
 namespace KatasTDD.Test;
 
-public class LeapYearsTest
+public class LeapYearsTests
 {
     [Fact]
     public void Si_ElAnioEs2004_Debo_RetornarTrue()

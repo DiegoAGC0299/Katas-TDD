@@ -3,7 +3,7 @@ using KatasTDD.Domain;
 
 namespace KatasTDD.Test.DoceDiasDeNavidad;
 
-public class DoceDiasDeNavidadTest
+public class DoceDiasDeNavidadTests
 {
     [Fact]
     public void Si_DiaEsUno_Debe_RetornarLetraCancion_Con_LineaCorrespondienteYRegalos()
