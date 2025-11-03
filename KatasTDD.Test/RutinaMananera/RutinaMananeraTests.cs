@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions;
+using KatasTDD.Domain.RutinaMananera;
 
 namespace KatasTDD.Test.RutinaMananera;
 
@@ -7,9 +8,9 @@ public class RutinaMananeraTests
     [Fact]
     public void Si_HoraEstaEntre0600y0659_Debe_MostrarHacerEjercicio()
     {
-        var rutinaMananera = new RutinaMananera();
+        var rutinaMananera = new RutinaMananeraBuilder().ActividadesPorDefecto().Build();
 
-        var actividadParaRealizar = rutinaMananera.SolicitarActividadParaRealizar("06:00");
+        var actividadParaRealizar = rutinaMananera.ConsultarActividad("06:00");
 
         actividadParaRealizar.Should().BeEquivalentTo("Hacer ejercicio");
     }
@@ -17,9 +18,9 @@ public class RutinaMananeraTests
     [Fact]
     public void Si_HoraEstaEntre0700y0759_Debe_MostrarLeerYEstudiar()
     {
-        var rutinaMananera = new RutinaMananera();
+        var rutinaMananera = new RutinaMananeraBuilder().ActividadesPorDefecto().Build();
 
-        var actividadParaRealizar = rutinaMananera.SolicitarActividadParaRealizar("07:00");
+        var actividadParaRealizar = rutinaMananera.ConsultarActividad("07:00");
 
         actividadParaRealizar.Should().BeEquivalentTo("Leer y estudiar");
     }
@@ -27,34 +28,44 @@ public class RutinaMananeraTests
     [Fact]
     public void Si_HoraEstaEntre0800y0859_Debe_MostrarDesayunar()
     {
-        var rutinaMananera = new RutinaMananera();
+        var rutinaMananera = new RutinaMananeraBuilder().ActividadesPorDefecto().Build();
 
-        var actividadParaRealizar = rutinaMananera.SolicitarActividadParaRealizar("08:00");
+        var actividadParaRealizar = rutinaMananera.ConsultarActividad("08:00");
 
         actividadParaRealizar.Should().BeEquivalentTo("Desayunar");
     }
-}
-
-public class RutinaMananera
-{
-    public string SolicitarActividadParaRealizar(string hora)
+    
+    [Theory]
+    [InlineData("05:59")]
+    [InlineData("09:00")]
+    public void Si_HoraEstaFueraDelIntervalo_Debe_MostrarSinActividad(string hora)
     {
-        var actividad = string.Empty;
-        var horaCalculada = TimeSpan.Parse(hora);
+        var rutinaMananera = new RutinaMananeraBuilder().ActividadesPorDefecto().Build();
 
-        var rangoEntre0600Y0659 = horaCalculada >= new TimeSpan(6, 0, 0) && horaCalculada < new TimeSpan(7, 0, 0);
-        var rangoEntre0700Y0759 = horaCalculada >= new TimeSpan(7, 0, 0) && horaCalculada < new TimeSpan(8, 0, 0);   
-        var rangoEntre0800Y0859 = horaCalculada >= new TimeSpan(8, 0, 0) && horaCalculada < new TimeSpan(9, 0, 0);   
-        
-        if (rangoEntre0600Y0659)
-            actividad = "Hacer ejercicio";
-        
-        if (rangoEntre0700Y0759)
-            actividad = "Leer y estudiar";
-        
-        if (rangoEntre0800Y0859)
-            actividad = "Desayunar";
-        
-        return actividad;
+        var actividadParaRealizar = rutinaMananera.ConsultarActividad(hora);
+
+        actividadParaRealizar.Should().BeEquivalentTo("Sin actividad");
+    }
+    
+    [Theory]
+    [InlineData("06:32", "Hacer ejercicio")]
+    [InlineData("06:52", "Ducharse")]
+    [InlineData("07:38", "Estudiar")]
+    [InlineData("08:07", "Desayunar")]
+    public void Si_HoraEstaEnRangoPermitido_Debe_MostrarActividadCorrespondiente(string hora, string actividad)
+    {
+        var actividadesPersonalizadas = new List<Actividad>
+        {
+            new("06:00", "06:44", "Hacer ejercicio"),
+            new("06:45", "06:59", "Ducharse"),
+            new("07:00", "07:29", "Leer"),
+            new("07:30", "07:59", "Estudiar"),
+            new("08:00", "08:59", "Desayunar"),
+        };
+        var rutinaMananera = new RutinaMananeraBuilder().ActividadesPersonalizadas(actividadesPersonalizadas).Build();
+
+        var actividadParaRealizar = rutinaMananera.ConsultarActividad(hora);
+
+        actividadParaRealizar.Should().BeEquivalentTo(actividad);
     }
 }
