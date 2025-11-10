@@ -1,4 +1,6 @@
 ﻿using AwesomeAssertions;
+using KatasTDD.Domain.Supermercado;
+using KatasTDD.Domain.Supermercado.DTO;
 
 namespace KatasTDD.Test.Supermercado;
 
@@ -46,45 +48,4 @@ public class CarritoComprasTests
         lista[0].Cantidad.Should().Be(2);
         
     }
-}
-
-public class CarritoCompras(Catalogo catalogo)
-{
-    private readonly List<ListaCompra> _listaCompra = [];
-    private const int CantidadPorDefecto = 1;
-
-    public void AgregarProductoALaLista(string nombreProducto)
-    {
-        var productoEnCatalogo = ConsultarProducto(nombreProducto);
-        LanzarExcepcionSiProductoNoExisteEnElCatalogo(nombreProducto, productoEnCatalogo);
-        
-        AgregarOModificarProductoDeLaLista(nombreProducto, productoEnCatalogo);
-    }
-
-    public List<ListaCompra> ObtenerLista() => _listaCompra;
-    
-    private Producto? ConsultarProducto(string nombreProducto) => catalogo.Productos.FirstOrDefault(f => f.Nombre == nombreProducto);
-    
-    private static void LanzarExcepcionSiProductoNoExisteEnElCatalogo(string nombreProducto, Producto? consultaProducto)
-    {
-        if (consultaProducto is null)
-            throw new NullReferenceException($"El producto con nombre {nombreProducto} no existe.");
-    }
-    
-    private void AgregarOModificarProductoDeLaLista(string nombreProducto, Producto productoEnCatalogo)
-    {
-        var productoEnLista = _listaCompra.FirstOrDefault(f => f.Producto?.Nombre == nombreProducto);
-
-        if (productoEnLista is not null)
-            productoEnLista.Cantidad++;
-        else
-            _listaCompra.Add(new ListaCompra(productoEnCatalogo, CantidadPorDefecto));
-        
-    }
-}
-
-public class ListaCompra(Producto producto, int cantidad)
-{
-    public Producto Producto { get; } = producto;
-    public int Cantidad { get; set; } = cantidad;
 }

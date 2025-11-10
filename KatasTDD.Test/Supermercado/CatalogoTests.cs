@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using AwesomeAssertions;
+using KatasTDD.Domain.Supermercado;
+using KatasTDD.Domain.Supermercado.DTO;
 
 namespace KatasTDD.Test.Supermercado;
 
@@ -13,8 +15,8 @@ public class CatalogoTests
         
         catalogo.RegistrarProducto(producto);
 
-        catalogo.Productos[0].Should().NotBeNull();
-        catalogo.Productos[0].Should().BeEquivalentTo(producto);
+        catalogo.ConsultarProductos()[0].Should().NotBeNull();
+        catalogo.ConsultarProductos()[0].Should().BeEquivalentTo(producto);
     }
 
     [Fact]
@@ -28,21 +30,3 @@ public class CatalogoTests
         caller.Should().ThrowExactly<DuplicateNameException>().WithMessage("Ya existe un producto con el mismo nombre.");
     }
 }
-
-public class Catalogo
-{
-    public List<Producto> Productos { get; } = [];
-    public void RegistrarProducto(Producto producto)
-    {
-        LanzarExcepcionSiProductoYaExisteConElMismoNombre(producto);
-        Productos.Add(producto);
-    }
-
-    private void LanzarExcepcionSiProductoYaExisteConElMismoNombre(Producto producto)
-    {
-        if(Productos.Any(a => a.Nombre.ToLower().Equals(producto.Nombre.ToLower())))
-            throw new DuplicateNameException("Ya existe un producto con el mismo nombre.");
-    }
-}
-
-public record Producto(string Nombre, double PrecioUnitario);
