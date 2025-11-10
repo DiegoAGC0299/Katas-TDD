@@ -48,6 +48,18 @@ public class SupermercadoTests
 
     }
     
+    [Fact]
+    public void Si_AgregoUnProductoDosVecesAlCarrito_Debe_ElValorTotalDeLaCompraSerElProductoDelValorUnitarioPorLaCantidadQueEsDos()
+    {
+        _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
+        _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
+        var supermercado = new Supermercado(_carritoCompras);
+        
+        var valorTotal = supermercado.ObtenerValorTotalCompra();
+
+        valorTotal.Should().Be(_productos[0].PrecioUnitario * 2);
+
+    }
     
 }
 
@@ -58,7 +70,7 @@ public class Supermercado(CarritoCompras carrito)
         double valorTotal = 0;
         foreach (var productoAgregado in carrito.ProductosAgregados)
         {
-            valorTotal += productoAgregado.Producto.PrecioUnitario;
+            valorTotal += (productoAgregado.Producto.PrecioUnitario * productoAgregado.Cantidad);
         }
         return valorTotal;
     }
