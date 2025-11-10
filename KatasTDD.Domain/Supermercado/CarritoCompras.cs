@@ -12,8 +12,6 @@ public class CarritoCompras(Catalogo catalogo)
         catalogo.LanzarExcepcionSiProductoNoExisteEnElCatalogo(nombreProducto);
         AgregarOModificarProductoDeLaLista(nombreProducto, ConsultarProducto(nombreProducto));
     }
-
-    public List<ListaCompra> ObtenerLista() => ProductosAgregados;
     
     private Producto? ConsultarProducto(string nombreProducto) => catalogo.Productos.FirstOrDefault(f => f.Nombre == nombreProducto);
     
@@ -22,7 +20,7 @@ public class CarritoCompras(Catalogo catalogo)
         var productoEnLista = ProductosAgregados.FirstOrDefault(f => f.Producto?.Nombre == nombreProducto);
 
         if (productoEnLista is not null)
-            productoEnLista.Cantidad++;
+            productoEnLista.Unidades++;
         else
             ProductosAgregados.Add(new ListaCompra(productoEnCatalogo, CantidadPorDefecto));
         

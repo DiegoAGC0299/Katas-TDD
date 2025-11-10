@@ -44,7 +44,7 @@ public class CarritoComprasTests
         carritoCompras.AgregarProductoALaLista(producto.Nombre);
         
         carritoCompras.ProductosAgregados.Should().HaveCount(1);
-        carritoCompras.ProductosAgregados[0].Cantidad.Should().Be(2);
+        carritoCompras.ProductosAgregados[0].Unidades.Should().Be(2);
         
     }
 }
