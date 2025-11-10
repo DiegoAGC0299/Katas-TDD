@@ -17,7 +17,7 @@ public class CarritoCompras(Catalogo catalogo)
 
     public List<ListaCompra> ObtenerLista() => ProductosAgregados;
     
-    private Producto? ConsultarProducto(string nombreProducto) => catalogo.ConsultarProductos().FirstOrDefault(f => f.Nombre == nombreProducto);
+    private Producto? ConsultarProducto(string nombreProducto) => catalogo.Productos.FirstOrDefault(f => f.Nombre == nombreProducto);
     
     private static void LanzarExcepcionSiProductoNoExisteEnElCatalogo(string nombreProducto, Producto? consultaProducto)
     {

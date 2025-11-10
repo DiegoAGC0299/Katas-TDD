@@ -15,8 +15,8 @@ public class CatalogoTests
         
         catalogo.RegistrarProducto(producto);
 
-        catalogo.ConsultarProductos()[0].Should().NotBeNull();
-        catalogo.ConsultarProductos()[0].Should().BeEquivalentTo(producto);
+        catalogo.Productos[0].Should().NotBeNull();
+        catalogo.Productos[0].Should().BeEquivalentTo(producto);
     }
 
     [Fact]

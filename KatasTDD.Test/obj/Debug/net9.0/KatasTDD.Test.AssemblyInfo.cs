@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KatasTDD.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2ebf339295927488d283de8b083c03723edbc96")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb4239f32f1abceda2c3e11ba9bbec03f012d505")]
 [assembly: System.Reflection.AssemblyProductAttribute("KatasTDD.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KatasTDD.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
