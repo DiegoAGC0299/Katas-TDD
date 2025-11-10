@@ -8,5 +8,16 @@ public class Caja(Catalogo catalogo)
     public List<Oferta> Ofertas { get; } = [];
 
     public void AregarOferta(TipoOferta tipo, Producto producto, double? valorAplicado = null)
-        => Ofertas.Add(new Oferta(tipo, producto, valorAplicado));
+    {
+        Catalogo.LanzarExcepcionSiProductoNoExisteEnElCatalogo(producto.Nombre);
+        LanzarExcepcionSiProductoYaCuentaConOfertaExistente(producto);
+        
+        Ofertas.Add(new Oferta(tipo, producto, valorAplicado));
+    }
+
+    private void LanzarExcepcionSiProductoYaCuentaConOfertaExistente(Producto producto)
+    {
+        if (Ofertas.Any(ofeta => ofeta.ProductoAplicado == producto))
+            throw new InvalidOperationException($"El producto con nombre {producto.Nombre} ya cuenta con una oferta existente.");
+    }
 }

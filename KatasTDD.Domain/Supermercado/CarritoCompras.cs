@@ -9,21 +9,13 @@ public class CarritoCompras(Catalogo catalogo)
 
     public void AgregarProductoALaLista(string nombreProducto)
     {
-        var productoEnCatalogo = ConsultarProducto(nombreProducto);
-        LanzarExcepcionSiProductoNoExisteEnElCatalogo(nombreProducto, productoEnCatalogo);
-        
-        AgregarOModificarProductoDeLaLista(nombreProducto, productoEnCatalogo);
+        catalogo.LanzarExcepcionSiProductoNoExisteEnElCatalogo(nombreProducto);
+        AgregarOModificarProductoDeLaLista(nombreProducto, ConsultarProducto(nombreProducto));
     }
 
     public List<ListaCompra> ObtenerLista() => ProductosAgregados;
     
     private Producto? ConsultarProducto(string nombreProducto) => catalogo.Productos.FirstOrDefault(f => f.Nombre == nombreProducto);
-    
-    private static void LanzarExcepcionSiProductoNoExisteEnElCatalogo(string nombreProducto, Producto? consultaProducto)
-    {
-        if (consultaProducto is null)
-            throw new NullReferenceException($"El producto con nombre {nombreProducto} no existe.");
-    }
     
     private void AgregarOModificarProductoDeLaLista(string nombreProducto, Producto productoEnCatalogo)
     {

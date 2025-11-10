@@ -16,6 +16,12 @@ public class Catalogo
         LanzarExcepcionSiProductoYaExisteConElMismoNombre(producto);
         Productos.Add(producto);
     }
+    
+    public void LanzarExcepcionSiProductoNoExisteEnElCatalogo(string nombreProducto)
+    {
+        if (Productos.All(p => p.Nombre != nombreProducto))
+            throw new NullReferenceException($"El producto con nombre {nombreProducto} no existe.");
+    }
 
     private void LanzarExcepcionSiProductoYaExisteConElMismoNombre(Producto producto)
     {

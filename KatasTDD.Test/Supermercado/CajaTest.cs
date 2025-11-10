@@ -35,4 +35,29 @@ public class CajaTest
         primeraOferta.ValorOferta.Should().Be(10);
 
     }
+    
+    [Fact]
+    public void Si_SeAgregaUnaOfertaAUnProductoQueNoExiste_Debe_LanzarExcepcion()
+    {
+        var caja = new Caja(_catalogo);
+        var productoAplicado = new Producto("Piña", 1.49);
+        
+        Action caller =() => caja.AregarOferta(TipoOferta.Descuento, productoAplicado);
+        
+        caller.Should().ThrowExactly<NullReferenceException>().WithMessage($"El producto con nombre {productoAplicado.Nombre} no existe.");
+
+    }
+    
+    [Fact]
+    public void Si_SeAgregaUnaOfertaAUnProductoQueYaCuentaConOfertaExistente_Debe_LanzarExcepcion()
+    {
+        var caja = new Caja(_catalogo);
+        var productoAplicado = _catalogo.Productos[1];
+        
+        caja.AregarOferta(TipoOferta.Descuento, productoAplicado);
+        Action caller =() => caja.AregarOferta(TipoOferta.Descuento, productoAplicado);
+        
+        caller.Should().ThrowExactly<InvalidOperationException>().WithMessage($"El producto con nombre {productoAplicado.Nombre} ya cuenta con una oferta existente.");
+
+    }
 }
