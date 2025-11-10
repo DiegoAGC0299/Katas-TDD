@@ -11,7 +11,7 @@ public class CatalogoTests
         var catalogo = new Catalogo();
         var producto = new Producto("Manzana",0.99);
         
-        catalogo.AgregarProducto(producto);
+        catalogo.RegistrarProducto(producto);
 
         catalogo.Productos[0].Should().NotBeNull();
         catalogo.Productos[0].Should().BeEquivalentTo(producto);
@@ -22,8 +22,8 @@ public class CatalogoTests
     {
         var catalogo = new Catalogo();
         
-        catalogo.AgregarProducto(new Producto("Manzana",0.99));
-        var caller = () => catalogo.AgregarProducto(new Producto("Manzana",1.99));
+        catalogo.RegistrarProducto(new Producto("Manzana",0.99));
+        var caller = () => catalogo.RegistrarProducto(new Producto("Manzana",1.99));
         
         caller.Should().ThrowExactly<DuplicateNameException>().WithMessage("Ya existe un producto con el mismo nombre.");
     }
@@ -32,7 +32,7 @@ public class CatalogoTests
 public class Catalogo
 {
     public List<Producto> Productos { get; } = [];
-    public void AgregarProducto(Producto producto)
+    public void RegistrarProducto(Producto producto)
     {
         LanzarExcepcionSiProductoYaExisteConElMismoNombre(producto);
         Productos.Add(producto);
@@ -45,4 +45,4 @@ public class Catalogo
     }
 }
 
-public record Producto(string Nombre, double Precio);
+public record Producto(string Nombre, double PrecioUnitario);
