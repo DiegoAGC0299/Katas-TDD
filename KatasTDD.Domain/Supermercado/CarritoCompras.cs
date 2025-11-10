@@ -4,7 +4,7 @@ namespace KatasTDD.Domain.Supermercado;
 
 public class CarritoCompras(Catalogo catalogo)
 {
-    private readonly List<ListaCompra> _listaCompra = [];
+    public List<ListaCompra> ProductosAgregados { get; } = [];
     private const int CantidadPorDefecto = 1;
 
     public void AgregarProductoALaLista(string nombreProducto)
@@ -15,7 +15,7 @@ public class CarritoCompras(Catalogo catalogo)
         AgregarOModificarProductoDeLaLista(nombreProducto, productoEnCatalogo);
     }
 
-    public List<ListaCompra> ObtenerLista() => _listaCompra;
+    public List<ListaCompra> ObtenerLista() => ProductosAgregados;
     
     private Producto? ConsultarProducto(string nombreProducto) => catalogo.ConsultarProductos().FirstOrDefault(f => f.Nombre == nombreProducto);
     
@@ -27,12 +27,12 @@ public class CarritoCompras(Catalogo catalogo)
     
     private void AgregarOModificarProductoDeLaLista(string nombreProducto, Producto productoEnCatalogo)
     {
-        var productoEnLista = _listaCompra.FirstOrDefault(f => f.Producto?.Nombre == nombreProducto);
+        var productoEnLista = ProductosAgregados.FirstOrDefault(f => f.Producto?.Nombre == nombreProducto);
 
         if (productoEnLista is not null)
             productoEnLista.Cantidad++;
         else
-            _listaCompra.Add(new ListaCompra(productoEnCatalogo, CantidadPorDefecto));
+            ProductosAgregados.Add(new ListaCompra(productoEnCatalogo, CantidadPorDefecto));
         
     }
 }

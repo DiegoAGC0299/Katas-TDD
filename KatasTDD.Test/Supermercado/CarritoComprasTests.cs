@@ -16,7 +16,7 @@ public class CarritoComprasTests
 
         carritoCompras.AgregarProductoALaLista(producto.Nombre);
         
-        carritoCompras.ObtenerLista()[0].Producto.Should().Be(producto);
+        carritoCompras.ProductosAgregados[0].Producto.Should().Be(producto);
     }
     
     [Fact]
@@ -43,9 +43,8 @@ public class CarritoComprasTests
         carritoCompras.AgregarProductoALaLista(producto.Nombre);
         carritoCompras.AgregarProductoALaLista(producto.Nombre);
         
-        var lista =  carritoCompras.ObtenerLista();
-        lista.Should().HaveCount(1);
-        lista[0].Cantidad.Should().Be(2);
+        carritoCompras.ProductosAgregados.Should().HaveCount(1);
+        carritoCompras.ProductosAgregados[0].Cantidad.Should().Be(2);
         
     }
 }

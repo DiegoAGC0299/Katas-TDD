@@ -11,11 +11,11 @@ public class SupermercadoTests
 
     public SupermercadoTests()
     {
-        _productos = new List<Producto>()
-        {
-            new("Manzana", 0.99),
-            new("Arroz", 2.49),
-        };
+        _productos =
+        [
+            new Producto("Manzana", 0.99),
+            new Producto("Arroz", 2.49)
+        ];
         
         var catalogo = new Catalogo();
         catalogo.RegistrarProductos(_productos);
@@ -24,22 +24,41 @@ public class SupermercadoTests
     }
     
     [Fact]
-    public void Si_AgregoUnProductoAlCarrito_Debe_ElValorTotalDeLaCompraSerIgualAlPrecioUnitarioDelProducto()
+    public void Si_AgregoUnProductoAlCarrito_Debe_EnElReciboMostrarLosProductosAgregados()
     {
         _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
-        var recibo = new Recibo();
+        var recibo = new Supermercado(_carritoCompras);
         
         var valorTotal = recibo.ObtenerValorTotalCompra();
 
         valorTotal.Should().Be(_productos[0].PrecioUnitario);
 
     }
+    
+    [Fact]
+    public void Si_AgregoUnProductoAlCarrito_Debe_ElValorTotalDeLaCompraSerIgualAlPrecioUnitarioDelProducto()
+    {
+        _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
+        var supermercado = new Supermercado(_carritoCompras);
+        
+        var valorTotal = supermercado.ObtenerValorTotalCompra();
+
+        valorTotal.Should().Be(_productos[0].PrecioUnitario);
+
+    }
+    
+    
 }
 
-public class Recibo
+public class Supermercado(CarritoCompras carrito)
 {
     public double ObtenerValorTotalCompra()
     {
-        return 0.99;
+        double valorTotal = 0;
+        foreach (var productoAgregado in carrito.ProductosAgregados)
+        {
+            valorTotal += productoAgregado.Producto.PrecioUnitario;
+        }
+        return valorTotal;
     }
 }
