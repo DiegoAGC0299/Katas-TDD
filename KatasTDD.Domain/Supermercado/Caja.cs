@@ -25,20 +25,28 @@ public class Caja(Catalogo catalogo)
     {
         var recibo = new Recibo();
         recibo.AgregarProductos(carritoCompras.ProductosAgregados);
+        recibo.Descuentos.Add(new Descuento(carritoCompras.ProductosAgregados[0].Producto, 1.192));
         return recibo;
     }
 
     public class Recibo
     {
         public List<ResumenProducto> Items { get; } = [];
+        public List<Descuento> Descuentos { get; } = [];
 
         public void AgregarProductos(List<ListaCompra> carrito)
-            => Items.AddRange(carrito.Select(compra => new ResumenProducto(compra.Producto, compra.Unidades, 1)).ToList());
+            => Items.AddRange(carrito.Select(compra => new ResumenProducto(compra.Producto, compra.Cantidad, compra.Producto.PrecioUnitario * compra.Cantidad)).ToList());
     }
 
-    public class ResumenProducto(Producto producto, int unidades, decimal valorTotal) : ListaCompra(producto, unidades)
+    public class ResumenProducto(Producto producto, int cantidad, double valorTotal) : ListaCompra(producto, cantidad)
     {
-        public decimal ValorTotal { get; set; } = valorTotal;
+        public double ValorTotal { get; set; } = valorTotal;
     }
     
+}
+
+public class Descuento(Producto producto, double valorDescuento)
+{
+    public Producto Producto { get; } = producto;
+    public double ValorDescuento { get; } = valorDescuento;
 }

@@ -20,7 +20,7 @@ public class CarritoCompras(Catalogo catalogo)
         var productoEnLista = ProductosAgregados.FirstOrDefault(f => f.Producto?.Nombre == nombreProducto);
 
         if (productoEnLista is not null)
-            productoEnLista.Unidades++;
+            productoEnLista.Cantidad++;
         else
             ProductosAgregados.Add(new ListaCompra(productoEnCatalogo, CantidadPorDefecto));
         
