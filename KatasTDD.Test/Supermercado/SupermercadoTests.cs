@@ -15,8 +15,9 @@ public class SupermercadoTests
         _catalogo.RegistrarProductos(GenerarProductosPorDefecto());
         
     }
+    
     [Fact]
-    public void Si_GeneroUnReciboConUnCepilloDeDientesAgregado_Debe_ContarConUnItemDelProductoAgregado()
+    public void Si_HayUnProductoAgregadoAlCarrito_Debe_GenerarUnReciboConUnSoloItemDelProducto()
     {
         var carritoCompras = new CarritoCompras(_catalogo);
         var productoAgregado = _catalogo.Productos[0];
@@ -27,6 +28,25 @@ public class SupermercadoTests
 
         recibo.Items.Should().HaveCount(1);
         recibo.Items[0].Producto.Should().Be(productoAgregado);
+
+    }
+    
+    [Fact]
+    public void Si_HayDosProductosAgregadoAlCarrito_Debe_GenerarUnReciboConDosItemsDeLosProductos()
+    {
+        var carritoCompras = new CarritoCompras(_catalogo);
+        var producto1 = _catalogo.Productos[0];
+        var producto2 = _catalogo.Productos[1];
+        
+        carritoCompras.AgregarProductoALaLista(producto1.Nombre);
+        carritoCompras.AgregarProductoALaLista(producto2.Nombre);
+
+        var caja = new Caja(_catalogo);
+        var recibo = caja.GenerarRecibo(carritoCompras);
+
+        recibo.Items.Should().HaveCount(2);
+        recibo.Items[0].Producto.Should().Be(producto1);
+        recibo.Items[1].Producto.Should().Be(producto2);
 
     }
     

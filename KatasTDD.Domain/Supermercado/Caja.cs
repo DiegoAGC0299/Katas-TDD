@@ -24,14 +24,16 @@ public class Caja(Catalogo catalogo)
     public Recibo GenerarRecibo(CarritoCompras carritoCompras)
     {
         var recibo = new Recibo();
-        var productoInicial = carritoCompras.ProductosAgregados[0];
-        recibo.Items.Add(new ResumenProducto(productoInicial.Producto, productoInicial.Unidades, 1));
+        recibo.AgregarProductos(carritoCompras.ProductosAgregados);
         return recibo;
     }
 
     public class Recibo
     {
         public List<ResumenProducto> Items { get; } = [];
+
+        public void AgregarProductos(List<ListaCompra> carrito)
+            => Items.AddRange(carrito.Select(compra => new ResumenProducto(compra.Producto, compra.Unidades, 1)).ToList());
     }
 
     public class ResumenProducto(Producto producto, int unidades, decimal valorTotal) : ListaCompra(producto, unidades)
