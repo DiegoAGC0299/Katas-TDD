@@ -24,7 +24,7 @@ public class SupermercadoTests
     }
     
     [Fact]
-    public void Si_AgregoUnProductoAlCarrito_Debe_EnElReciboMostrarLosProductosAgregados()
+    public void Si_AgregoUnProductoAlCarrito_Debe_ElValorTotalDeLaCompraSerIgualAlPrecioUnitarioDelProducto()
     {
         _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
         var recibo = new Supermercado(_carritoCompras);
@@ -36,14 +36,15 @@ public class SupermercadoTests
     }
     
     [Fact]
-    public void Si_AgregoUnProductoAlCarrito_Debe_ElValorTotalDeLaCompraSerIgualAlPrecioUnitarioDelProducto()
+    public void Si_AgregoDosProductosAlCarrito_Debe_ElValorTotalDeLaCompraSerIgualAlaSumaDelPrecioUnitarioDeCadaProducto()
     {
         _carritoCompras.AgregarProductoALaLista(_productos[0].Nombre);
+        _carritoCompras.AgregarProductoALaLista(_productos[1].Nombre);
         var supermercado = new Supermercado(_carritoCompras);
         
         var valorTotal = supermercado.ObtenerValorTotalCompra();
 
-        valorTotal.Should().Be(_productos[0].PrecioUnitario);
+        valorTotal.Should().Be(_productos.Sum(sumatoria => sumatoria.PrecioUnitario));
 
     }
     
