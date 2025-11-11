@@ -11,7 +11,7 @@ public class CatalogoTests
     public void Si_AgregoUnProductoAlCatalogo_Debe_ProductoEstarRegistrado()
     {
         var catalogo = new Catalogo();
-        var producto = new Producto("Manzana",0.99);
+        var producto = new Producto("Manzana",0.99M);
         
         catalogo.RegistrarProducto(producto);
 
@@ -24,8 +24,8 @@ public class CatalogoTests
     {
         var catalogo = new Catalogo();
         
-        catalogo.RegistrarProducto(new Producto("Manzana",0.99));
-        var caller = () => catalogo.RegistrarProducto(new Producto("Manzana",1.99));
+        catalogo.RegistrarProducto(new Producto("Manzana",0.99M));
+        var caller = () => catalogo.RegistrarProducto(new Producto("Manzana",0.99M));
         
         caller.Should().ThrowExactly<DuplicateNameException>().WithMessage("Ya existe un producto con el mismo nombre.");
     }

@@ -12,8 +12,8 @@ public class CajaTest
     {
         var productos = new List<Producto>
         {
-            new("Manzana", 0.99),
-            new("Arroz", 2.49)
+            new("Manzana", 0.99M),
+            new("Arroz", 2.49M)
         };
         
         _catalogo = new Catalogo();
@@ -40,7 +40,7 @@ public class CajaTest
     public void Si_SeAgregaUnaOfertaAUnProductoQueNoExiste_Debe_LanzarExcepcion()
     {
         var caja = new Caja(_catalogo);
-        var productoAplicado = new Producto("Piña", 1.49);
+        var productoAplicado = new Producto("Piña", 1.49M);
         
         Action caller =() => caja.AregarOferta(TipoOferta.Descuento, productoAplicado);
         

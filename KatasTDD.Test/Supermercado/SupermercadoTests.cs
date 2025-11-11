@@ -59,11 +59,12 @@ public class SupermercadoTests
         
         var recibo = _caja.GenerarRecibo(_carritoCompras);
         
+        recibo.Items[0].ValorTotal.Should().Be(productoAgregado.PrecioUnitario * 2M);
         recibo.Items[0].ValorTotal.Should().Be(productoAgregado.PrecioUnitario * 2);
     }
 
     [Fact]
-    public void Si_ExisteUnaManzanaEnElCarritoYSeAgregoUnaOfertaDelVeintePorCiento_Debe_GenerarElReciboConProductoYValorDescuentoAplicado()
+    public void Si_ExisteUnKiloDeManzanaEnElCarritoYSeAgregoUnaOfertaDelVeintePorCiento_Debe_GenerarElReciboConProductoYValorDescuentoAplicado()
     {
         var productoManzana = _catalogo.Productos[1];
         _carritoCompras.AgregarProductoALaLista(productoManzana.Nombre);
@@ -73,17 +74,34 @@ public class SupermercadoTests
         
         recibo.Descuentos.Should().HaveCount(1);
         recibo.Descuentos[0].Producto.Should().Be(productoManzana);
-        recibo.Descuentos[0].ValorDescuento.Should().Be(1.192);
+        recibo.Descuentos[0].ValorDescuento.Should().Be(0.298M);
+
+    }
+    
+    [Fact]
+    public void Si_ExisteUnaBolsaDeArrozEnElCarritoYSeAgregoUnaOfertaDelDiezPorCiento_Debe_GenerarElReciboConProductoYValorDescuentoAplicado()
+    {
+        var productoArroz = _catalogo.Productos[2];
+        var porcentajeDescuento = 10;
+        _carritoCompras.AgregarProductoALaLista(productoArroz.Nombre);
+        _caja.AregarOferta(TipoOferta.Descuento, productoArroz, porcentajeDescuento);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos.Should().HaveCount(1);
+        recibo.Descuentos[0].Producto.Should().Be(productoArroz);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Dto del {porcentajeDescuento}%");
+        recibo.Descuentos[0].ValorDescuento.Should().Be(0.249M);
 
     }
     
     private List<Producto> GenerarProductosPorDefecto()
         =>
         [
-            new("Cepillo de dientes", 0.99),
-            new("Manzana por kilo", 1.49),
-            new("Arroz en bolsa", 2.49),
-            new("Tubo de pasta de dientes", 1.79),
-            new("Caja de tomates cherry", 0.99)
+            new("Cepillo de dientes", 0.99M),
+            new("Manzana por kilo", 1.49M),
+            new("Arroz en bolsa", 2.49M),
+            new("Tubo de pasta de dientes", 1.79M),
+            new("Caja de tomates cherry", 0.99M)
         ];
 }

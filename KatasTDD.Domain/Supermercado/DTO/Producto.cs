@@ -1,7 +1,7 @@
 namespace KatasTDD.Domain.Supermercado.DTO;
 
-public class Producto(string nombre, double precioUnitario)
+public class Producto(string nombre, decimal precioUnitario)
 {
     public string Nombre { get; } = nombre;
-    public double PrecioUnitario { get; set; } = precioUnitario;
+    public decimal PrecioUnitario { get; set; } = precioUnitario;
 }

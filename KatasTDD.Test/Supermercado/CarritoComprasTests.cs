@@ -9,7 +9,7 @@ public class CarritoComprasTests
     [Fact]
     public void Si_AgregoUnProducto_Debe_AgregarloEnLaListaDeCompra()
     {
-        var producto = new Producto("Manzana", 1.00);
+        var producto = new Producto("Manzana", 1.00M);
         var catalogo = new Catalogo();
         catalogo.RegistrarProducto(producto);
         var carritoCompras = new CarritoCompras(catalogo);
@@ -22,7 +22,7 @@ public class CarritoComprasTests
     [Fact]
     public void Si_AgregoUnProductoQueNoExiste_Debe_LanzarExcepcion()
     {
-        var producto = new Producto("Manzana", 1.00);
+        var producto = new Producto("Manzana", 1.00M);
         var catalogo = new Catalogo();
         catalogo.RegistrarProducto(producto);
         var carritoCompras = new CarritoCompras(catalogo);
@@ -35,7 +35,7 @@ public class CarritoComprasTests
     [Fact]
     public void Si_AgregoElMismoProductoDosVeces_Debe_ExistirUnSoloProductoConCantidadDosEnLaListaDeCompra()
     {
-        var producto = new Producto("Manzana", 1.00);
+        var producto = new Producto("Manzana", 1.00M);
         var catalogo = new Catalogo();
         catalogo.RegistrarProducto(producto);
         var carritoCompras = new CarritoCompras(catalogo);

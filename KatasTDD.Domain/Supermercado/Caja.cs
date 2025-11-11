@@ -4,28 +4,48 @@ namespace KatasTDD.Domain.Supermercado;
 
 public class Caja(Catalogo catalogo)
 {
-    public Catalogo Catalogo { get; } = catalogo;
     public List<Oferta> Ofertas { get; } = [];
 
-    public void AregarOferta(TipoOferta tipo, Producto producto, double? valorAplicado = null)
+    public void AregarOferta(TipoOferta tipo, Producto producto, decimal? valorOferta = null)
     {
-        Catalogo.LanzarExcepcionSiProductoNoExisteEnElCatalogo(producto.Nombre);
+        catalogo.LanzarExcepcionSiProductoNoExisteEnElCatalogo(producto.Nombre);
         LanzarExcepcionSiProductoYaCuentaConOfertaExistente(producto);
         
-        Ofertas.Add(new Oferta(tipo, producto, valorAplicado));
+        Ofertas.Add(new Oferta(tipo, producto, valorOferta));
     }
 
     private void LanzarExcepcionSiProductoYaCuentaConOfertaExistente(Producto producto)
     {
-        if (Ofertas.Any(ofeta => ofeta.ProductoAplicado == producto))
+        if (Ofertas.Any(oferta => oferta.ProductoAplicado == producto))
             throw new InvalidOperationException($"El producto con nombre {producto.Nombre} ya cuenta con una oferta existente.");
     }
 
     public Recibo GenerarRecibo(CarritoCompras carritoCompras)
     {
         var recibo = new Recibo();
-        recibo.AgregarProductos(carritoCompras.ProductosAgregados);
-        recibo.Descuentos.Add(new Descuento(carritoCompras.ProductosAgregados[0].Producto, 1.192));
+
+        foreach (var compra in carritoCompras.ProductosAgregados)
+        {
+            var valorTotal = compra.Producto.PrecioUnitario * compra.Cantidad;
+            recibo.AgregarItem(new ResumenProducto(compra.Producto, compra.Cantidad, valorTotal));
+            
+            var oferta = Ofertas.FirstOrDefault(f => f.ProductoAplicado ==  compra.Producto);
+
+            if (oferta is null) continue;
+            
+            decimal valorDescuentoAplicado = 0;
+            var descripcion = "";
+
+            if (oferta.Tipo == TipoOferta.Descuento)
+            {
+                
+                valorDescuentoAplicado = valorTotal * (oferta.ValorOferta.GetValueOrDefault() / 100);
+                descripcion = $"Dto del {oferta.ValorOferta}%";
+            }
+                
+            recibo.AgregarDescuento(new Descuento(compra.Producto, descripcion, valorDescuentoAplicado));
+        }
+        
         return recibo;
     }
 
@@ -34,19 +54,23 @@ public class Caja(Catalogo catalogo)
         public List<ResumenProducto> Items { get; } = [];
         public List<Descuento> Descuentos { get; } = [];
 
-        public void AgregarProductos(List<ListaCompra> carrito)
-            => Items.AddRange(carrito.Select(compra => new ResumenProducto(compra.Producto, compra.Cantidad, compra.Producto.PrecioUnitario * compra.Cantidad)).ToList());
+        public void AgregarItem(ResumenProducto item)
+            => Items.Add(item);
+        
+        public void AgregarDescuento(Descuento descuento)
+            => Descuentos.Add(descuento);
     }
 
-    public class ResumenProducto(Producto producto, int cantidad, double valorTotal) : ListaCompra(producto, cantidad)
+    public class ResumenProducto(Producto producto, int cantidad, decimal valorTotal) : ListaCompra(producto, cantidad)
     {
-        public double ValorTotal { get; set; } = valorTotal;
+        public decimal ValorTotal { get; set; } = valorTotal;
     }
     
 }
 
-public class Descuento(Producto producto, double valorDescuento)
+public class Descuento(Producto producto, string descripcion, decimal valorDescuento)
 {
     public Producto Producto { get; } = producto;
-    public double ValorDescuento { get; } = valorDescuento;
+    public string Descripcion { get; } = descripcion;
+    public decimal ValorDescuento { get; } = valorDescuento;
 }
