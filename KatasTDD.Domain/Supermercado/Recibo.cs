@@ -14,5 +14,5 @@ public class Recibo
         => Descuentos.Add(descuento);
 
     public decimal ObtenerValorTotalCompra() 
-        => Items.Sum(item => item.ValorTotal) - 0.99M;
+        => Items.Sum(item => item.ValorTotal) - Descuentos.Sum(descuento =>  descuento.Valor);
 }

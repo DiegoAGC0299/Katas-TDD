@@ -241,6 +241,25 @@ public class SupermercadoTests
 
     }
     
+    [Fact]
+    public void Si_ExistenDosCajasDeTomatesCherryElCarritoYSeAplicoOfertaPagueDosPorCeroPuntoNoventaYNueve_Debe_ElValorTotalDeLaCompraSerLaSumatoriaDeItemsMenosLosDescuentosAplicados()
+    {
+        var productoTomatesCherry = _catalogo.Productos[4];
+        var precioFijo = 0.99M;
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _caja.AregarOferta(TipoOferta.PagueDosPorPrecioFijo, productoTomatesCherry, precioFijo);
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
+        
+        var valorTotal =  recibo.ObtenerValorTotalCompra();
+        
+        valorTotal.Should().Be(precioFijo);
+    
+    }
+    
+    
     private List<Producto> GenerarProductosPorDefecto()
         =>
         [
