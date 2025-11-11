@@ -9,5 +9,7 @@ public class Oferta(TipoOferta tipo, Producto producto, decimal? valorOferta = n
 
 public enum TipoOferta
 {
-    Descuento
+    Descuento,
+    PagueDosLleveTres,
+    PagueDosPorPrecioFijo
 }

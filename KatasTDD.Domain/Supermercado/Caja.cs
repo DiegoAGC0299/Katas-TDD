@@ -14,12 +14,6 @@ public class Caja(Catalogo catalogo)
         Ofertas.Add(new Oferta(tipo, producto, valorOferta));
     }
 
-    private void LanzarExcepcionSiProductoYaCuentaConOfertaExistente(Producto producto)
-    {
-        if (Ofertas.Any(oferta => oferta.ProductoAplicado == producto))
-            throw new InvalidOperationException($"El producto con nombre {producto.Nombre} ya cuenta con una oferta existente.");
-    }
-
     public Recibo GenerarRecibo(CarritoCompras carritoCompras)
     {
         var recibo = new Recibo();
@@ -27,50 +21,67 @@ public class Caja(Catalogo catalogo)
         foreach (var compra in carritoCompras.ProductosAgregados)
         {
             var valorTotal = compra.Producto.PrecioUnitario * compra.Cantidad;
-            recibo.AgregarItem(new ResumenProducto(compra.Producto, compra.Cantidad, valorTotal));
+            recibo.AgregarItem(new ItemProducto(compra.Producto, compra.Cantidad, valorTotal));
             
-            var oferta = Ofertas.FirstOrDefault(f => f.ProductoAplicado ==  compra.Producto);
-
-            if (oferta is null) continue;
-            
-            decimal valorDescuentoAplicado = 0;
-            var descripcion = "";
-
-            if (oferta.Tipo == TipoOferta.Descuento)
-            {
-                
-                valorDescuentoAplicado = valorTotal * (oferta.ValorOferta.GetValueOrDefault() / 100);
-                descripcion = $"Dto del {oferta.ValorOferta}%";
-            }
-                
-            recibo.AgregarDescuento(new Descuento(compra.Producto, descripcion, valorDescuentoAplicado));
+            AplicarOfertas(compra, valorTotal, recibo);
         }
         
         return recibo;
     }
 
-    public class Recibo
+    private void AplicarOfertas(ListaCompra compra, decimal valorTotal, Recibo recibo)
     {
-        public List<ResumenProducto> Items { get; } = [];
-        public List<Descuento> Descuentos { get; } = [];
-
-        public void AgregarItem(ResumenProducto item)
-            => Items.Add(item);
+        var ofertaParaAplicar = Ofertas.FirstOrDefault(oferta => oferta.ProductoAplicado ==  compra.Producto);
+        if (ofertaParaAplicar is null) return;
         
-        public void AgregarDescuento(Descuento descuento)
-            => Descuentos.Add(descuento);
+        decimal valorDescuentoAplicado = 0;
+        var descripcion = "";
+
+        switch (ofertaParaAplicar.Tipo)
+        {
+            case TipoOferta.Descuento:
+                valorDescuentoAplicado = AplicarDescuento(valorTotal, ofertaParaAplicar, out descripcion);
+                break;
+            case TipoOferta.PagueDosLleveTres:
+                descripcion = AplicarPagueDosYLleveTres(compra, ofertaParaAplicar, descripcion, ref valorDescuentoAplicado);
+                break;
+            case TipoOferta.PagueDosPorPrecioFijo:
+            {
+                var grupos = compra.Cantidad / 2;
+                if (grupos <= 0) return;
+                
+                decimal descuentoPorGrupo = valorTotal - ofertaParaAplicar.ValorOferta.GetValueOrDefault();
+                valorDescuentoAplicado = grupos * descuentoPorGrupo;
+                descripcion = $"Pague dos por ${ofertaParaAplicar.ValorOferta}";
+                break;
+            }
+            default:
+                return;
+        }
+
+        recibo.AgregarDescuento(new Descuento(compra.Producto, descripcion, valorDescuentoAplicado));
     }
 
-    public class ResumenProducto(Producto producto, int cantidad, decimal valorTotal) : ListaCompra(producto, cantidad)
+    private void LanzarExcepcionSiProductoYaCuentaConOfertaExistente(Producto producto)
     {
-        public decimal ValorTotal { get; set; } = valorTotal;
+        if (Ofertas.Any(oferta => oferta.ProductoAplicado == producto))
+            throw new InvalidOperationException($"El producto con nombre {producto.Nombre} ya cuenta con una oferta existente.");
     }
-    
-}
+    private string AplicarPagueDosYLleveTres(ListaCompra compra, Oferta oferta, string descripcion,
+        ref decimal valorDescuentoAplicado)
+    {
+        var gruposDeTres = compra.Cantidad / (int)oferta.ValorOferta!;
+        if (gruposDeTres <= 0) return descripcion;
+        descripcion = "Pague dos y lleve tres";
+        valorDescuentoAplicado = gruposDeTres * compra.Producto.PrecioUnitario;
 
-public class Descuento(Producto producto, string descripcion, decimal valorDescuento)
-{
-    public Producto Producto { get; } = producto;
-    public string Descripcion { get; } = descripcion;
-    public decimal ValorDescuento { get; } = valorDescuento;
+        return descripcion;
+    }
+
+    private decimal AplicarDescuento(decimal valorTotal, Oferta oferta, out string descripcion)
+    {
+        var valorDescuento = valorTotal * (oferta.ValorOferta.GetValueOrDefault() / 100);
+        descripcion = $"Dto del {oferta.ValorOferta}%";
+        return valorDescuento;
+    }
 }

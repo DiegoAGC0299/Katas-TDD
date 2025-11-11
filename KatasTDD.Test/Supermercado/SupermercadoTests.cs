@@ -74,7 +74,7 @@ public class SupermercadoTests
         
         recibo.Descuentos.Should().HaveCount(1);
         recibo.Descuentos[0].Producto.Should().Be(productoManzana);
-        recibo.Descuentos[0].ValorDescuento.Should().Be(0.298M);
+        recibo.Descuentos[0].Valor.Should().Be(0.298M);
 
     }
     
@@ -91,7 +91,84 @@ public class SupermercadoTests
         recibo.Descuentos.Should().HaveCount(1);
         recibo.Descuentos[0].Producto.Should().Be(productoArroz);
         recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Dto del {porcentajeDescuento}%");
-        recibo.Descuentos[0].ValorDescuento.Should().Be(0.249M);
+        recibo.Descuentos[0].Valor.Should().Be(0.249M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenTresCepillosDeDientesEnElCarrito_Debe_AplicarOfertaPagueDosYLleveTresYGenerarElReciboConDescuentoAplicado()
+    {
+        var productoCepilloDientes = _catalogo.Productos[0];
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _caja.AregarOferta(TipoOferta.PagueDosLleveTres, productoCepilloDientes, 3);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoCepilloDientes);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo("Pague dos y lleve tres");
+        recibo.Descuentos[0].Valor.Should().Be(0.99M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenSeisCepillosDeDientesEnElCarrito_Debe_AplicarOfertaPagueDosYLleveTresYGenerarElReciboConDescuentoAplicado()
+    {
+        var productoCepilloDientes = _catalogo.Productos[0];
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        
+        _caja.AregarOferta(TipoOferta.PagueDosLleveTres, productoCepilloDientes, 3);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoCepilloDientes);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo("Pague dos y lleve tres");
+        recibo.Descuentos[0].Valor.Should().Be(1.98M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenDosCajasDeTomatesCherryElCarrito_Debe_AplicarOfertaPagueDosPorCeroPuntoNoventaYNueveYGenerarElReciboConDescuentoAplicado()
+    {
+        var productoTomatesCherry = _catalogo.Productos[4];
+        var precioFijo = 0.99M;
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        
+        _caja.AregarOferta(TipoOferta.PagueDosPorPrecioFijo, productoTomatesCherry, precioFijo);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague dos por ${precioFijo}");
+        recibo.Descuentos[0].Valor.Should().Be(0.39M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenCuatroCajasDeTomatesCherryElCarrito_Debe_AplicarOfertaPagueDosPorCeroPuntoNoventaYNueveYGenerarElReciboConDescuentoAplicado()
+    {
+        var productoTomatesCherry = _catalogo.Productos[4];
+        var precioFijo = 0.99M;
+        
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomatesCherry.Nombre);
+        
+        _caja.AregarOferta(TipoOferta.PagueDosPorPrecioFijo, productoTomatesCherry, precioFijo);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague dos por ${precioFijo}");
+        recibo.Descuentos[0].Valor.Should().Be(1.78M);
 
     }
     
@@ -102,6 +179,6 @@ public class SupermercadoTests
             new("Manzana por kilo", 1.49M),
             new("Arroz en bolsa", 2.49M),
             new("Tubo de pasta de dientes", 1.79M),
-            new("Caja de tomates cherry", 0.99M)
+            new("Caja de tomates cherry", 0.69M)
         ];
 }
