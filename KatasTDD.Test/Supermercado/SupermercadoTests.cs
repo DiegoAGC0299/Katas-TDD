@@ -204,9 +204,26 @@ public class SupermercadoTests
         _carritoCompras.AgregarProductoALaLista(productoBolsaArroz.Nombre);
         
         var recibo = _caja.GenerarRecibo(_carritoCompras);
-        var total = recibo.ObtenerValorTotal();
+        var total = recibo.ObtenerValorTotalCompra();
 
         total.Should().Be(3.48M);
+
+    }
+    
+    [Fact]
+    public void Si_HayDosCajasDeTomatesCerryYUnKiloDeManzanas_Debe_ElPrecioTotalDebeSerLaSumatoriaDeLosProductos()
+    {
+        var productoTomateCherry = _catalogo.Productos[4];
+        var productoKiloManzana = _catalogo.Productos[1];
+        
+        _carritoCompras.AgregarProductoALaLista(productoTomateCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoTomateCherry.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoKiloManzana.Nombre);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        var total = recibo.ObtenerValorTotalCompra();
+
+        total.Should().Be(2.87M);
 
     }
     
