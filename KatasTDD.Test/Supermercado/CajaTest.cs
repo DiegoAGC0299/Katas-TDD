@@ -36,11 +36,13 @@ public class CajaTest
 
     }
     
-    [Fact]
-    public void Si_SeAgregaUnaOfertaAUnProductoQueNoExiste_Debe_LanzarExcepcion()
+    [Theory]
+    [InlineData("Piña")]
+    [InlineData("Aguacate")]
+    public void Si_SeAgregaUnaOfertaAUnProductoQueNoExiste_Debe_LanzarExcepcion(string nombre)
     {
         var caja = new Caja(_catalogo);
-        var productoAplicado = new Producto("Piña", 1.49M);
+        var productoAplicado = new Producto(nombre, 1.49M);
         
         Action caller =() => caja.AregarOferta(TipoOferta.Descuento, productoAplicado);
         
