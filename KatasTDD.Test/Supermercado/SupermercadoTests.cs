@@ -195,11 +195,10 @@ public class SupermercadoTests
     }
     
     [Fact]
-    public void Si_AgregoUnCepilloDeDientesYUnArrozEnBolsa_Debe_ElPrecioTotalDebeSerTresPuntoCuarentaYOcho()
+    public void Si_AgregoUnCepilloDeDientesYUnArrozEnBolsa_Debe_ElValorTotalDeLaCompraDebeSerTresPuntoCuarentaYOcho()
     {
         var productoCepilloDientes = _catalogo.Productos[0];
         var productoBolsaArroz = _catalogo.Productos[2];
-        
         _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
         _carritoCompras.AgregarProductoALaLista(productoBolsaArroz.Nombre);
         
@@ -211,11 +210,10 @@ public class SupermercadoTests
     }
     
     [Fact]
-    public void Si_HayDosCajasDeTomatesCerryYUnKiloDeManzanas_Debe_ElPrecioTotalDebeSerLaSumatoriaDeLosProductos()
+    public void Si_HayDosCajasDeTomatesCerryYUnKiloDeManzanas_Debe_ElValorTotalDeLaCompraDebeSerLaSumatoriaDeLosProductos()
     {
         var productoTomateCherry = _catalogo.Productos[4];
         var productoKiloManzana = _catalogo.Productos[1];
-        
         _carritoCompras.AgregarProductoALaLista(productoTomateCherry.Nombre);
         _carritoCompras.AgregarProductoALaLista(productoTomateCherry.Nombre);
         _carritoCompras.AgregarProductoALaLista(productoKiloManzana.Nombre);
@@ -224,6 +222,22 @@ public class SupermercadoTests
         var total = recibo.ObtenerValorTotalCompra();
 
         total.Should().Be(2.87M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenTresCepillosDeDientesEnElCarritoYSeAplicoOfertaPagueDosYLleveTres_Debe_ElValorTotalDeLaCompra_SerUnoPuntoNoventaYOcho()
+    {
+        var productoCepilloDientes = _catalogo.Productos[0];
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _caja.AregarOferta(TipoOferta.PagueDosLleveTres, productoCepilloDientes, 3);
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        var valorTotal = recibo.ObtenerValorTotalCompra();
+        
+        valorTotal.Should().Be(1.98M);
 
     }
     
