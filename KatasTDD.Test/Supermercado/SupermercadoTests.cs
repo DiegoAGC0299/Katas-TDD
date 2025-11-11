@@ -146,13 +146,13 @@ public class SupermercadoTests
         var recibo = _caja.GenerarRecibo(_carritoCompras);
         
         recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
-        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague dos por ${precioFijo}");
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague 2 por ${precioFijo}");
         recibo.Descuentos[0].Valor.Should().Be(0.39M);
 
     }
     
     [Fact]
-    public void Si_ExistenCuatroCajasDeTomatesCherryElCarrito_Debe_AplicarOfertaPagueDosPorCeroPuntoNoventaYNueveYGenerarElReciboConDescuentoAplicado()
+    public void Si_ExistenCuatroCajasDeTomatesCherryEnElCarrito_Debe_AplicarOfertaPagueDosPorCeroPuntoNoventaYNueveYGenerarElReciboConDescuentoAplicado()
     {
         var productoTomatesCherry = _catalogo.Productos[4];
         var precioFijo = 0.99M;
@@ -167,8 +167,46 @@ public class SupermercadoTests
         var recibo = _caja.GenerarRecibo(_carritoCompras);
         
         recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
-        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague dos por ${precioFijo}");
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague 2 por ${precioFijo}");
         recibo.Descuentos[0].Valor.Should().Be(0.78M);
+
+    }
+    
+    [Fact]
+    public void Si_ExistenCincoTubosDePastaDeDientesEnElCarrito_Debe_AplicarOfertaPagueCincoPorSietePuntoCuarentaYNueveYGenerarElReciboConDescuentoAplicado()
+    {
+        var productoPastaDientes = _catalogo.Productos[3];
+        var precioFijo = 7.49M;
+        
+        _carritoCompras.AgregarProductoALaLista(productoPastaDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoPastaDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoPastaDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoPastaDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoPastaDientes.Nombre);
+        
+        _caja.AregarOferta(TipoOferta.PagueCincoPorPrecioFijo, productoPastaDientes, precioFijo);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        
+        recibo.Descuentos[0].Producto.Should().Be(productoPastaDientes);
+        recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague 5 por ${precioFijo}");
+        recibo.Descuentos[0].Valor.Should().Be(1.46M);
+
+    }
+    
+    [Fact]
+    public void Si_AgregoUnCepilloDeDientesYUnArrozEnBolsa_Debe_ElPrecioTotalDebeSerTresPuntoCuarentaYOcho()
+    {
+        var productoCepilloDientes = _catalogo.Productos[0];
+        var productoBolsaArroz = _catalogo.Productos[2];
+        
+        _carritoCompras.AgregarProductoALaLista(productoCepilloDientes.Nombre);
+        _carritoCompras.AgregarProductoALaLista(productoBolsaArroz.Nombre);
+        
+        var recibo = _caja.GenerarRecibo(_carritoCompras);
+        var total = recibo.ObtenerValorTotal();
+
+        total.Should().Be(3.48M);
 
     }
     

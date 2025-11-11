@@ -45,9 +45,9 @@ public class Caja(Catalogo catalogo)
             case TipoOferta.PagueDosLleveTres:
                 AplicarPagueDosYLleveTres(compra, ofertaParaAplicar, ref descripcion, ref valorDescuentoAplicado);
                 break;
-            case TipoOferta.PagueDosPorPrecioFijo:
+            case TipoOferta.PagueDosPorPrecioFijo or TipoOferta.PagueCincoPorPrecioFijo:
             {
-                AplicarPagueDosPorPrecioFijo(compra, ofertaParaAplicar, ref valorDescuentoAplicado, ref descripcion);
+                AplicarPagueCantidadEstablecidaPorPrecioFijo(compra, ofertaParaAplicar, (int)ofertaParaAplicar.Tipo, ref valorDescuentoAplicado, ref descripcion);
                 break;
             }
             default:
@@ -78,15 +78,15 @@ public class Caja(Catalogo catalogo)
         valorDescuentoAplicado = gruposDeTres * compra.Producto.PrecioUnitario;
     }
     
-    private void AplicarPagueDosPorPrecioFijo(ListaCompra compra, Oferta ofertaParaAplicar, ref decimal valorDescuentoAplicado,
+    private void AplicarPagueCantidadEstablecidaPorPrecioFijo(ListaCompra compra, Oferta ofertaParaAplicar, int cantidadEstablecida, ref decimal valorDescuentoAplicado,
         ref string descripcion)
     {
-        var grupos = compra.Cantidad / 2;
+        var grupos = compra.Cantidad / cantidadEstablecida;
         if (grupos <= 0) return;
 
-        decimal valorAplicadoPorGrupo = compra.Producto.PrecioUnitario * 2;
+        decimal valorAplicadoPorGrupo = compra.Producto.PrecioUnitario * cantidadEstablecida;
         decimal descuentoPorGrupo = valorAplicadoPorGrupo - ofertaParaAplicar.ValorOferta.GetValueOrDefault();
         valorDescuentoAplicado = grupos * descuentoPorGrupo;
-        descripcion = $"Pague dos por ${ofertaParaAplicar.ValorOferta}";
+        descripcion = $"Pague {cantidadEstablecida} por ${ofertaParaAplicar.ValorOferta}";
     }
 }
