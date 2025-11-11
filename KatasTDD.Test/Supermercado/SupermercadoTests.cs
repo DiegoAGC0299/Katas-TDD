@@ -168,7 +168,7 @@ public class SupermercadoTests
         
         recibo.Descuentos[0].Producto.Should().Be(productoTomatesCherry);
         recibo.Descuentos[0].Descripcion.Should().BeEquivalentTo($"Pague dos por ${precioFijo}");
-        recibo.Descuentos[0].Valor.Should().Be(1.78M);
+        recibo.Descuentos[0].Valor.Should().Be(0.78M);
 
     }
     

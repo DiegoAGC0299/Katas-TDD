@@ -40,19 +40,14 @@ public class Caja(Catalogo catalogo)
         switch (ofertaParaAplicar.Tipo)
         {
             case TipoOferta.Descuento:
-                valorDescuentoAplicado = AplicarDescuento(valorTotal, ofertaParaAplicar, out descripcion);
+                AplicarDescuento(valorTotal, ofertaParaAplicar, ref descripcion, ref valorDescuentoAplicado);
                 break;
             case TipoOferta.PagueDosLleveTres:
-                descripcion = AplicarPagueDosYLleveTres(compra, ofertaParaAplicar, descripcion, ref valorDescuentoAplicado);
+                AplicarPagueDosYLleveTres(compra, ofertaParaAplicar, ref descripcion, ref valorDescuentoAplicado);
                 break;
             case TipoOferta.PagueDosPorPrecioFijo:
             {
-                var grupos = compra.Cantidad / 2;
-                if (grupos <= 0) return;
-                
-                decimal descuentoPorGrupo = valorTotal - ofertaParaAplicar.ValorOferta.GetValueOrDefault();
-                valorDescuentoAplicado = grupos * descuentoPorGrupo;
-                descripcion = $"Pague dos por ${ofertaParaAplicar.ValorOferta}";
+                AplicarPagueDosPorPrecioFijo(compra, ofertaParaAplicar, ref valorDescuentoAplicado, ref descripcion);
                 break;
             }
             default:
@@ -67,21 +62,31 @@ public class Caja(Catalogo catalogo)
         if (Ofertas.Any(oferta => oferta.ProductoAplicado == producto))
             throw new InvalidOperationException($"El producto con nombre {producto.Nombre} ya cuenta con una oferta existente.");
     }
-    private string AplicarPagueDosYLleveTres(ListaCompra compra, Oferta oferta, string descripcion,
+    
+    private void AplicarDescuento(decimal valorTotal, Oferta oferta, ref string descripcion, ref decimal valorDescuento)
+    {
+        valorDescuento = valorTotal * (oferta.ValorOferta.GetValueOrDefault() / 100);
+        descripcion = $"Dto del {oferta.ValorOferta}%";
+    }
+    
+    private void AplicarPagueDosYLleveTres(ListaCompra compra, Oferta oferta, ref string descripcion,
         ref decimal valorDescuentoAplicado)
     {
         var gruposDeTres = compra.Cantidad / (int)oferta.ValorOferta!;
-        if (gruposDeTres <= 0) return descripcion;
+        if (gruposDeTres <= 0) return;
         descripcion = "Pague dos y lleve tres";
         valorDescuentoAplicado = gruposDeTres * compra.Producto.PrecioUnitario;
-
-        return descripcion;
     }
-
-    private decimal AplicarDescuento(decimal valorTotal, Oferta oferta, out string descripcion)
+    
+    private void AplicarPagueDosPorPrecioFijo(ListaCompra compra, Oferta ofertaParaAplicar, ref decimal valorDescuentoAplicado,
+        ref string descripcion)
     {
-        var valorDescuento = valorTotal * (oferta.ValorOferta.GetValueOrDefault() / 100);
-        descripcion = $"Dto del {oferta.ValorOferta}%";
-        return valorDescuento;
+        var grupos = compra.Cantidad / 2;
+        if (grupos <= 0) return;
+
+        decimal valorAplicadoPorGrupo = compra.Producto.PrecioUnitario * 2;
+        decimal descuentoPorGrupo = valorAplicadoPorGrupo - ofertaParaAplicar.ValorOferta.GetValueOrDefault();
+        valorDescuentoAplicado = grupos * descuentoPorGrupo;
+        descripcion = $"Pague dos por ${ofertaParaAplicar.ValorOferta}";
     }
 }
