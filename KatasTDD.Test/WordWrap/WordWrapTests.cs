@@ -25,6 +25,12 @@ public static class WordsWrap
 {
     public static object Wrap(string word, int col)
     {
-        return word.Length < col ? word : "";
+        if (string.IsNullOrEmpty(word))
+            return "";
+        
+        if(word.Length <= col)
+            return word;
+        
+        throw new Exception();
     }
 }
