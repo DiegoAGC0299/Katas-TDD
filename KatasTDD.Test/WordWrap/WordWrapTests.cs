@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AwesomeAssertions;
+﻿using AwesomeAssertions;
 
 namespace KatasTDD.Test.WordWrap;
 
@@ -44,6 +43,38 @@ public class WordWrapTests
 
         result.Should().Be("wor\nd\nwor\nd");
     }
+    
+    [Fact]
+    public void If_TextContainsTwoWordsAndColIs6_Must_ReturnStringWithLineBreakEveryWord()
+    {
+        var result = WordsWrap.Wrap("word word", 6);
+
+        result.Should().Be("word\nword");
+    }
+    
+    [Fact]
+    public void If_TextContainsTwoWordsAndColIs5_Must_ReturnStringWithLineBreakEveryWord()
+    {
+        var result = WordsWrap.Wrap("word word", 5);
+
+        result.Should().Be("word\nword");
+    }
+    
+    [Fact]
+    public void If_TextContainsThreeWordsAndColIs6_Must_ReturnStringWithLineBreakEveryWord()
+    {
+        var result = WordsWrap.Wrap("word word word", 6);
+
+        result.Should().Be("word\nword\nword");
+    }
+    
+    [Fact]
+    public void If_TextContainsThreeWordsAndColIs11_Must_ReturnStringWithLineBreakBetweenTwoWordsAndTheLast()
+    {
+        var result = WordsWrap.Wrap("word word word", 11);
+
+        result.Should().Be("word word\nword");
+    }
 }
 
 public static class WordsWrap
@@ -62,9 +93,8 @@ public static class WordsWrap
     private static string WrapText(string text, int col)
     {
         var result = new List<string>();
-        var words = text.Split(' ');
-
-        foreach (var item in words) result.Add(string.Join("\n", item.Chunk(col).Select(chars => new string(chars))));
+        var groupedWords = GroupTextPerColumn(text, col);
+        foreach (var item in groupedWords) result.Add(ChunkWord(col, item));
         return string.Join("\n", result);
     }
 
@@ -75,4 +105,32 @@ public static class WordsWrap
         result = text;
         return string.IsNullOrEmpty(text) || text.Length <= col;
     }
+
+    private static List<string> GroupTextPerColumn(string text, int col)
+    {
+        var group = new List<string>();
+        var words = text.Split(" ");
+        var currentLine = string.Empty;
+        
+        foreach (var wordItem in words)
+        {
+            var newLine = !string.IsNullOrEmpty(currentLine) ? currentLine + " " + wordItem : wordItem;
+            
+            if(newLine.Length <= col)
+                currentLine = newLine;
+            else
+            {
+                if(!string.IsNullOrEmpty(currentLine))
+                    group.Add(currentLine);
+                
+                currentLine = wordItem;
+            }
+        }
+        
+        if(!string.IsNullOrEmpty(currentLine))
+            group.Add(currentLine);
+        
+        return group;
+    }
+    private static string ChunkWord(int col, string item) => string.Join("\n", item.Chunk(col).Select(chars => new string(chars)));
 }
