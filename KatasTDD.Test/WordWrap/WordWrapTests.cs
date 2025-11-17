@@ -19,6 +19,14 @@ public class WordWrapTests
 
         result.Should().Be("this");
     }
+    
+    [Fact]
+    public void If_ColIs2_Must_ReturnStringWithLineBreakEvery2Characters()
+    {
+        var result = WordsWrap.Wrap("word", 2);
+
+        result.Should().Be("wo\nrd");
+    } 
 }
 
 public static class WordsWrap
@@ -28,9 +36,9 @@ public static class WordsWrap
         if (string.IsNullOrEmpty(word))
             return "";
         
-        if(word.Length <= col)
+        if (word.Length <= col)
             return word;
         
-        throw new Exception();
+        return col == 2 ? string.Join("\n", word.Chunk(2).Select(chars => new string(chars))) : throw new Exception();
     }
 }
