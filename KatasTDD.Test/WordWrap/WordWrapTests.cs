@@ -26,7 +26,15 @@ public class WordWrapTests
         var result = WordsWrap.Wrap("word", 2);
 
         result.Should().Be("wo\nrd");
-    } 
+    }
+    
+    [Fact]
+    public void If_ColIs3_Must_ReturnStringWithLineBreakEvery3Characters()
+    {
+        var result = WordsWrap.Wrap("abcdefghij", 3);
+
+        result.Should().Be("abc\ndef\nghi\nj");
+    }
 }
 
 public static class WordsWrap
@@ -38,7 +46,10 @@ public static class WordsWrap
         
         if (word.Length <= col)
             return word;
+
+        if (col != 0)
+            return string.Join("\n", word.Chunk(col).Select(chars => new string(chars)));
         
-        return col == 2 ? string.Join("\n", word.Chunk(2).Select(chars => new string(chars))) : throw new Exception();
+        throw new Exception();
     }
 }
