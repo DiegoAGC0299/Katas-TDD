@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions;
+using KatasTDD.Domain.WordWrap;
 
 namespace KatasTDD.Test.WordWrap;
 
@@ -19,7 +20,7 @@ public class WordWrapTests
 
         result.Should().Be("this");
     }
-    
+
     [Fact]
     public void If_ColIs2_Must_ReturnStringWithLineBreakEvery2Characters()
     {
@@ -27,7 +28,7 @@ public class WordWrapTests
 
         result.Should().Be("wo\nrd");
     }
-    
+
     [Fact]
     public void If_ColIs3_Must_ReturnStringWithLineBreakEvery3Characters()
     {
@@ -35,7 +36,7 @@ public class WordWrapTests
 
         result.Should().Be("abc\ndef\nghi\nj");
     }
-    
+
     [Fact]
     public void If_TextContainsTwoWordsAndColIs3_Must_ReturnStringWithLineBreakEveryWordAnd3Characters()
     {
@@ -43,7 +44,7 @@ public class WordWrapTests
 
         result.Should().Be("wor\nd\nwor\nd");
     }
-    
+
     [Fact]
     public void If_TextContainsTwoWordsAndColIs6_Must_ReturnStringWithLineBreakEveryWord()
     {
@@ -51,7 +52,7 @@ public class WordWrapTests
 
         result.Should().Be("word\nword");
     }
-    
+
     [Fact]
     public void If_TextContainsTwoWordsAndColIs5_Must_ReturnStringWithLineBreakEveryWord()
     {
@@ -59,7 +60,7 @@ public class WordWrapTests
 
         result.Should().Be("word\nword");
     }
-    
+
     [Fact]
     public void If_TextContainsThreeWordsAndColIs6_Must_ReturnStringWithLineBreakEveryWord()
     {
@@ -67,7 +68,7 @@ public class WordWrapTests
 
         result.Should().Be("word\nword\nword");
     }
-    
+
     [Fact]
     public void If_TextContainsThreeWordsAndColIs11_Must_ReturnStringWithLineBreakBetweenTwoWordsAndTheLast()
     {
@@ -75,62 +76,4 @@ public class WordWrapTests
 
         result.Should().Be("word word\nword");
     }
-}
-
-public static class WordsWrap
-{
-    public static string Wrap(string text, int col)
-    {
-        if (TextIsEmptyOrIsShorterThanCol(text, col, out var textResult))
-            return textResult;
-
-        if (AllowedColumnValue(col))
-            return WrapText(text, col);
-        
-        throw new Exception();
-    }
-
-    private static string WrapText(string text, int col)
-    {
-        var result = new List<string>();
-        var groupedWords = GroupTextPerColumn(text, col);
-        foreach (var item in groupedWords) result.Add(ChunkWord(col, item));
-        return string.Join("\n", result);
-    }
-
-    private static bool AllowedColumnValue(int col) => col != 0;
-
-    private static bool TextIsEmptyOrIsShorterThanCol(string text, int col, out string result)
-    {
-        result = text;
-        return string.IsNullOrEmpty(text) || text.Length <= col;
-    }
-
-    private static List<string> GroupTextPerColumn(string text, int col)
-    {
-        var group = new List<string>();
-        var words = text.Split(" ");
-        var currentLine = string.Empty;
-        
-        foreach (var wordItem in words)
-        {
-            var newLine = !string.IsNullOrEmpty(currentLine) ? currentLine + " " + wordItem : wordItem;
-            
-            if(newLine.Length <= col)
-                currentLine = newLine;
-            else
-            {
-                if(!string.IsNullOrEmpty(currentLine))
-                    group.Add(currentLine);
-                
-                currentLine = wordItem;
-            }
-        }
-        
-        if(!string.IsNullOrEmpty(currentLine))
-            group.Add(currentLine);
-        
-        return group;
-    }
-    private static string ChunkWord(int col, string item) => string.Join("\n", item.Chunk(col).Select(chars => new string(chars)));
 }
