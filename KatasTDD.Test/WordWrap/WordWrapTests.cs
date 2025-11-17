@@ -1,4 +1,5 @@
-﻿using AwesomeAssertions;
+﻿using System.Text;
+using AwesomeAssertions;
 
 namespace KatasTDD.Test.WordWrap;
 
@@ -35,21 +36,43 @@ public class WordWrapTests
 
         result.Should().Be("abc\ndef\nghi\nj");
     }
+    
+    [Fact]
+    public void If_TextContainsTwoWordsAndColIs3_Must_ReturnStringWithLineBreakEveryWordAnd3Characters()
+    {
+        var result = WordsWrap.Wrap("word word", 3);
+
+        result.Should().Be("wor\nd\nwor\nd");
+    }
 }
 
 public static class WordsWrap
 {
-    public static object Wrap(string word, int col)
+    public static string Wrap(string text, int col)
     {
-        if (string.IsNullOrEmpty(word))
-            return "";
-        
-        if (word.Length <= col)
-            return word;
+        if (TextIsEmptyOrIsShorterThanCol(text, col, out var textResult))
+            return textResult;
 
-        if (col != 0)
-            return string.Join("\n", word.Chunk(col).Select(chars => new string(chars)));
+        if (AllowedColumnValue(col))
+            return WrapText(text, col);
         
         throw new Exception();
+    }
+
+    private static string WrapText(string text, int col)
+    {
+        var result = new List<string>();
+        var words = text.Split(' ');
+
+        foreach (var item in words) result.Add(string.Join("\n", item.Chunk(col).Select(chars => new string(chars))));
+        return string.Join("\n", result);
+    }
+
+    private static bool AllowedColumnValue(int col) => col != 0;
+
+    private static bool TextIsEmptyOrIsShorterThanCol(string text, int col, out string result)
+    {
+        result = text;
+        return string.IsNullOrEmpty(text) || text.Length <= col;
     }
 }
